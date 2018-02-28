@@ -1,0 +1,51 @@
+.footer {
+  background-color: #212121;
+  color: #ccc;
+}
+
+footer hr {
+  width: 100%;
+  border-color: #999999;
+}
+
+/* I wish React had out-of-box support for sass :( */
+footer h1, footer h2, footer h3, footer h4, footer h5, footer h6 {
+  margin-bottom: 0;
+}
+
+footer h5 {
+  color: #676767;
+  margin-bottom: 1rem;
+}
+
+footer a, footer a:visited {
+  color: #ccc;
+  padding-left: 0;
+}
+
+footer a:hover {
+  color: #777;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.copyright {
+  padding: .4rem;
+}
+
+p {
+  margin-bottom: 0;
+  padding-bottom: .5rem;
+}
+
+footer .child-20 {
+  flex: 1 0 20%;
+}
+
+footer .child-30 {
+  flex: 1 0 30%;
+}
+
+footer .child-40 {
+  flex: 1 0 40%;
+}
