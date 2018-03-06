@@ -22,9 +22,9 @@ const appRoutes: Routes = [
     data: { title: 'Novel Computation & Control' }
   },
   {
-    path: 'about_us',
+    path: 'about',
     component: AboutPageComponent,
-    data: { title: 'Novel Computation & Control' }
+    data: { title: 'About Us: Novel Computation & Control' }
   },
   { path: '**', component: PageNotFoundComponent }
 ];
