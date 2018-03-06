@@ -8,8 +8,10 @@ import {AppComponent} from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { IndexPageComponent } from './index-page/index-page.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { IndexPageComponent } from './pages/index-page/index-page.component';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { AuthorCardComponent } from './author-card/author-card.component';
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -17,6 +19,11 @@ const appRoutes: Routes = [
   {
     path: '',
     component: IndexPageComponent,
+    data: { title: 'Novel Computation & Control' }
+  },
+  {
+    path: 'about_us',
+    component: AboutPageComponent,
     data: { title: 'Novel Computation & Control' }
   },
   { path: '**', component: PageNotFoundComponent }
@@ -29,6 +36,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     PageNotFoundComponent,
     IndexPageComponent,
+    AboutPageComponent,
+    AuthorCardComponent,
   ],
   imports: [
     BrowserModule,
