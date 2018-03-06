@@ -25,28 +25,8 @@ a, a:visited, a:hover {
   padding-bottom: 2.5rem;
 }
 
-.authorRow ul {
-  /*list-style-type: none;*/
-}
-
-.author-card li p {
-  margin: 0;
-  padding: 0;
-}
-
 .child {
   flex: 1 0 25%;
-}
-
-.author-card a {
-  padding-left: .5rem;
-  padding-right: .5rem;
-}
-
-.author-card img {
-  height: 20rem;
-  width: 100%;
-  object-fit: cover;
 }
 
 /*Carousel CSS*/

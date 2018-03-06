@@ -1,0 +1,15 @@
+li p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+img {
+  height: 20rem;
+  width: 100%;
+  object-fit: cover;
+}
