@@ -13,6 +13,7 @@ import { IndexPageComponent } from './pages/index-page/index-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AuthorCardComponent } from './shared/author-card/author-card.component';
 import { LoginPageComponent } from './authentication/login-page/login-page.component';
+import {AuthenticationService} from './authentication/authentication.service';
 
 
 const appRoutes: Routes = [
@@ -26,7 +27,7 @@ const appRoutes: Routes = [
   {
     path: 'account/login',
     component: LoginPageComponent,
-    data: { title: 'Novel Computation & Control' }
+    data: { title: 'Novel Computation & Control' },
   },
   {
     path: 'about',
@@ -58,7 +59,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     )
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
