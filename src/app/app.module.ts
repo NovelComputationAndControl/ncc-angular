@@ -12,7 +12,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { IndexPageComponent } from './pages/index-page/index-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AuthorCardComponent } from './author-card/author-card.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { LoginPageComponent } from './pages/authentication/login-page/login-page.component';
 
 
 const appRoutes: Routes = [
