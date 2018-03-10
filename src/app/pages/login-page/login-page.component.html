@@ -1,0 +1,34 @@
+<main class="container">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="w-50 mx-auto">
+        <div class="text-center">
+          <h1>Login</h1>
+          <p class="text-secondary">Welcome back!</p>
+        </div>
+
+        <form class="py-5"
+              [formGroup]="loginForm"
+              (ngSubmit)="onSubmit(loginForm.value)"
+        >
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                   placeholder="Enter email"
+                   [formControl]="loginForm.controls['email']">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password"
+                   [formControl]="loginForm.controls['password']">
+          </div>
+          <button type="submit" class="btn btn-block btn-primary">Login</button>
+        </form>
+
+        <p><i class="fas fa-user-plus"></i> Don't have an account?  <a routerLink="account/register">Register!</a> </p>
+      </div>
+    </div>
+  </div>
+</main>
