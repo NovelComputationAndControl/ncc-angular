@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { IndexPageComponent } from './pages/index-page/index-page.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AuthorCardComponent } from './author-card/author-card.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -19,6 +20,11 @@ const appRoutes: Routes = [
   {
     path: '',
     component: IndexPageComponent,
+    data: { title: 'Novel Computation & Control' }
+  },
+  {
+    path: 'account/login',
+    component: LoginPageComponent,
     data: { title: 'Novel Computation & Control' }
   },
   {
@@ -38,6 +44,7 @@ const appRoutes: Routes = [
     IndexPageComponent,
     AboutPageComponent,
     AuthorCardComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
