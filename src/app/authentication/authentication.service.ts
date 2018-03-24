@@ -20,8 +20,11 @@ export class AuthenticationService implements UserData {
     // TODO: Create an API for login in the Backend!
     this.apiUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBNtP_WfX4Nh3b7mtk2oK8pMd6CnO-8Pxw';
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.setUser(currentUser);
+    // Retrieve the user from localStorage.
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser != null) {
+      this.setUser(JSON.parse(currentUser));
+    }
   }
 
   // Store the user in the class.
@@ -40,8 +43,13 @@ export class AuthenticationService implements UserData {
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
   }
 
+  // Deletes the user information from localStorage.
+  public deleteUser() {
+    localStorage.setItem('currentUser', null);
+  }
+
   // Authenticates an user, returns true if successful false otherwise.
-  authenticateUser(email: string, password: string): Observable<boolean> {
+  public authenticateUser(email: string, password: string): Observable<boolean> {
     const data = {
       email: email,
       password: password
