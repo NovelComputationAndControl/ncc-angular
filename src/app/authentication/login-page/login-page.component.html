@@ -1,10 +1,32 @@
 <main class="container">
   <div class="row justify-content-center">
+    <!--Error Messages-->
     <div *ngIf="message" class="col-12">
       <ngb-alert [type]="messageType" [dismissible]="false">
         <strong>Warning!</strong> {{ message }}
       </ngb-alert>
     </div>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="email.errors.required">
+          Email is required.
+        </span>
+      </ngb-alert>
+    </div>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="password.errors.required">
+          Password is required.
+        </span>
+        <span *ngIf="password.errors.minlength">
+          Password must be at least 4 characters long.
+        </span>
+      </ngb-alert>
+    </div>
+
+    <!--Form-->
     <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
       <div class="text-center">
         <h1>Login</h1>
@@ -27,7 +49,12 @@
           <input type="password" class="form-control" id="password" placeholder="Password"
                  [formControl]="loginForm.controls['password']">
         </div>
-        <button type="submit" class="btn btn-block btn-primary">Login</button>
+
+        <button type="submit" class="btn btn-block btn-primary"
+                [ngClass]="{
+          'disabled': password.invalid || email.invalid
+        }">Login
+        </button>
       </form>
 
       <p><i class="fas fa-user-plus"></i> Don't have an account? <a routerLink="account/register">Register!</a></p>

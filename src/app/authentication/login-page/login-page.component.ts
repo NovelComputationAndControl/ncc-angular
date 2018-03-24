@@ -2,7 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import {
   FormBuilder, FormControl,
-  FormGroup
+  FormGroup, Validators
 } from '@angular/forms';
 import {AuthenticationService} from '../authentication.service';
 import {Router} from '@angular/router';
@@ -17,17 +17,25 @@ export class LoginPageComponent implements OnInit {
   message: string;
   messageType: string;
 
+  ngOnInit() {
+  }
 
   constructor(private router: Router, private fb: FormBuilder, private auth: AuthenticationService) {
     this.loginForm = new FormGroup({
-      email: new FormControl(),
-      password: new FormControl()
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)])
     });
 
     this.setMessage(null, null);
   }
 
-  ngOnInit() {
+  // Getters
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
   private setMessage(type: string, mess: string) {
@@ -36,6 +44,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   onSubmit(value: any): void {
+    if (this.email.invalid || this.password.invalid) {
+      return;
+    }
+
     const email: string = value && value.email || null;
     const password: string = value && value.password || null;
 
