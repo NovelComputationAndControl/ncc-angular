@@ -14,11 +14,13 @@ export class AuthenticationService implements UserData {
   email: string;
   token: string;
   refreshToken: string;
-  private apiUrl: string;
+  private loginApiUrl: string;
+  private registrationApiUrl: string;
 
   constructor(private http: HttpClient) {
-    // TODO: Create an API for login in the Backend!
-    this.apiUrl = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBNtP_WfX4Nh3b7mtk2oK8pMd6CnO-8Pxw';
+    // TODO: Handle token expiration and refresh.
+    this.loginApiUrl = 'http://localhost:8000/api/token-auth/';
+    this.registrationApiUrl = 'http://localhost:8000/api/register/';
 
     // Retrieve the user from localStorage.
     const currentUser = localStorage.getItem('currentUser');
@@ -44,24 +46,45 @@ export class AuthenticationService implements UserData {
   }
 
   // Deletes the user information from localStorage.
-  public deleteUser() {
+  public logOut() {
+    this.email = null;
+    this.token = null;
     localStorage.setItem('currentUser', null);
+  }
+
+  public isAuthenticated(): boolean {
+    return this.token != null;
+  }
+
+  // Registers the user
+  public registerUser(value: any): Observable<boolean> {
+    const data = {
+      email: value && value.email || null,
+      password: value && value.password || null,
+      first_name: value && value.first_name || null,
+      last_name: value && value.last_name || null
+    };
+
+    return this.http.post(this.registrationApiUrl, data).map((response: Response) => {
+      const email = response && response['email'];
+
+      return !!email;
+    });
   }
 
   // Authenticates an user, returns true if successful false otherwise.
   public authenticateUser(email: string, password: string): Observable<boolean> {
     const data = {
-      email: email,
+      username: email,
       password: password
     };
 
-    return this.http.post(this.apiUrl, data).map((response: Response) => {
+    return this.http.post(this.loginApiUrl, data).map((response: Response) => {
       // noinspection TypeScriptUnresolvedVariable
-      const token = response && response['idToken'];
-      const rEmail = response && response['email'];
+      const token = response && response['token'];
 
-      if (rEmail && token) {
-        this.storeUser(rEmail, token);
+      if (token) {
+        this.storeUser('', token);
         return true;
       }
 

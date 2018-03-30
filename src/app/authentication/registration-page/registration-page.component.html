@@ -1,0 +1,91 @@
+<main class="container">
+  <div class="row justify-content-center">
+    <!--Error Messages-->
+    <div *ngIf="message" class="col-12">
+      <ngb-alert [type]="messageType" [dismissible]="false">
+        <strong>Warning!</strong> {{ message }}
+      </ngb-alert>
+    </div>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="email.errors.required">
+          Email is required.
+        </span>
+      </ngb-alert>
+    </div>
+    <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="firstName.errors.required">
+          First Name is required.
+        </span>
+      </ngb-alert>
+    </div>
+    <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="lastName.errors.required">
+          Last Name is required.
+        </span>
+      </ngb-alert>
+    </div>
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="col-12">
+      <ngb-alert [type]="'danger'" [dismissible]="false">
+        <strong>Warning!</strong>
+        <span *ngIf="password.errors.required">
+          Password is required.
+        </span>
+        <span *ngIf="password.errors.minlength">
+          Password must be at least 6 characters long.
+        </span>
+      </ngb-alert>
+    </div>
+
+    <!--Form-->
+    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+      <div class="text-center">
+        <h1>Join NCC Today!</h1>
+        <p class="text-secondary">And start publishing with us.</p>
+      </div>
+
+      <form class="py-5"
+            [formGroup]="registrationForm"
+            (ngSubmit)="onSubmit(registrationForm.value)"
+      >
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" class="form-control" id="first_name" placeholder="First Name"
+                 [formControl]="lastName">
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" id="last_name" placeholder="Last Name"
+                 [formControl]="firstName">
+        </div>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                 placeholder="Enter email"
+                 [formControl]="email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. Make sure
+            the address is valid!
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password"
+                 [formControl]="password">
+          <small id="passHelp" class="form-text text-muted">Use a strong password of minimum 6 characters.</small>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-primary"
+                [ngClass]="{
+          'disabled': password.invalid || email.invalid || firstName.invalid || lastName.invalid
+        }">Register</button>
+      </form>
+
+      <p><i class="fas fa-user-plus"></i> Already have an account? <a routerLink="/login">Login!</a></p>
+    </div>
+  </div>
+</main>

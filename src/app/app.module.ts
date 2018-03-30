@@ -14,6 +14,7 @@ import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { AuthorCardComponent } from './shared/author-card/author-card.component';
 import { LoginPageComponent } from './authentication/login-page/login-page.component';
 import {AuthenticationService} from './authentication/authentication.service';
+import { RegistrationPageComponent } from './authentication/registration-page/registration-page.component';
 
 
 const appRoutes: Routes = [
@@ -25,8 +26,13 @@ const appRoutes: Routes = [
     data: { title: 'Novel Computation & Control' },
   },
   {
-    path: 'account/login',
+    path: 'login',
     component: LoginPageComponent,
+    data: { title: 'Novel Computation & Control' },
+  },
+  {
+    path: 'register',
+    component: RegistrationPageComponent,
     data: { title: 'Novel Computation & Control' },
   },
   {
@@ -47,6 +53,7 @@ const appRoutes: Routes = [
     AboutPageComponent,
     AuthorCardComponent,
     LoginPageComponent,
+    RegistrationPageComponent,
   ],
   imports: [
     BrowserModule,

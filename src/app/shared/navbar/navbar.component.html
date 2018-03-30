@@ -1,6 +1,6 @@
 <div class="container">
   <div class="navigation-bar" id="top">
-    <nav class="navbar navbar-expand-md navbar-light bg-red"><a href="/" class="navbar-brand">Novel Computation &amp;
+    <nav class="navbar navbar-expand-md navbar-light bg-red"><a routerLink="/" class="navbar-brand">Novel Computation &amp;
       Control</a>
       <button type="button" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse">
@@ -14,8 +14,14 @@
               Account
             </a>
             <div ngbDropdownMenu class="dropdown-menu">
-              <a class="dropdown-item" routerLink="account/login"><i class="far fa-user"></i> Login</a>
-              <a class="dropdown-item" routerLink="account/register"><i class="fas fa-user-plus"></i> Register</a>
+              <div *ngIf="!checkIfAuthenticated()">
+                <a class="dropdown-item" routerLink="/login"><i class="far fa-user"></i> Login</a>
+                <a class="dropdown-item" routerLink="/register"><i class="fas fa-user-plus"></i> Register</a>
+              </div>
+              <div *ngIf="checkIfAuthenticated()">
+                <a class="dropdown-item" routerLink="/settings"><i class="fas fa-sliders-h"></i> Settings</a>
+                <a class="dropdown-item" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              </div>
             </div>
           </li>
         </ul>
