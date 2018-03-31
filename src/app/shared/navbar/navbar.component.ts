@@ -23,8 +23,4 @@ export class NavbarComponent {
     this.auth.logOut();
     this.router.navigateByUrl('/');
   }
-
-  get isAuthenticated() {
-    return this._isAuthenticated;
-  }
 }

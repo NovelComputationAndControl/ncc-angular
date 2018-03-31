@@ -1,59 +1,40 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import {User} from './user';
 import 'rxjs/add/operator/map';
 
-export interface UserData {
-  email: string;
-  token: string;
-  refreshToken: string;
-}
-
+// TODO: Find a way to return more meaningful errors. I.e create a class
 @Injectable()
-export class AuthenticationService implements UserData {
-  email: string;
-  token: string;
-  refreshToken: string;
+export class AuthenticationService {
+  private user: User;
+
   private loginApiUrl: string;
   private registrationApiUrl: string;
 
   constructor(private http: HttpClient) {
-    // TODO: Handle token expiration and refresh.
     this.loginApiUrl = 'http://localhost:8000/api/token-auth/';
     this.registrationApiUrl = 'http://localhost:8000/api/register/';
 
     // Retrieve the user from localStorage.
-    const currentUser = localStorage.getItem('currentUser');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentUser != null) {
-      this.setUser(JSON.parse(currentUser));
+      // Check if the token is expired.
+      if (new Date() < new Date(currentUser.expiration_date * 1000)) {
+        this.setUser(currentUser);
+      }
+      /* else sessions has expired */
     }
-  }
-
-  // Store the user in the class.
-  private setUser(currentUser: any) {
-    this.email = currentUser && currentUser.email;
-    this.token = currentUser && currentUser.token;
-  }
-
-  // Store the user in the class and localStorage.
-  private storeUser(email: string, token: string) {
-    const currentUser = {
-      email: email,
-      token: token
-    };
-    this.setUser(currentUser);
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
   }
 
   // Deletes the user information from localStorage.
   public logOut() {
-    this.email = null;
-    this.token = null;
+    this.user = null;
     localStorage.setItem('currentUser', null);
   }
 
   public isAuthenticated(): boolean {
-    return this.token != null;
+    return this.user && this.user.Token != null && new Date() < new Date(this.user.ExpirationDate * 1000);
   }
 
   // Registers the user
@@ -67,7 +48,6 @@ export class AuthenticationService implements UserData {
 
     return this.http.post(this.registrationApiUrl, data).map((response: Response) => {
       const email = response && response['email'];
-
       return !!email;
     });
   }
@@ -80,16 +60,18 @@ export class AuthenticationService implements UserData {
     };
 
     return this.http.post(this.loginApiUrl, data).map((response: Response) => {
-      // noinspection TypeScriptUnresolvedVariable
-      const token = response && response['token'];
-
+      const token: Response | any = response && response['token'];
       if (token) {
-        this.storeUser('', token);
+        this.setUser(response);
+        localStorage.setItem('currentUser', JSON.stringify(response));
         return true;
       }
-
       return false;
     });
   }
 
+  private setUser(response: Response) {
+    this.user = new User();
+    this.user.copyInto(response);
+  }
 }
