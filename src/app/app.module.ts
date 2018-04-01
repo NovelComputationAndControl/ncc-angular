@@ -15,6 +15,7 @@ import { AuthorCardComponent } from './shared/author-card/author-card.component'
 import { LoginPageComponent } from './authentication/login-page/login-page.component';
 import {AuthenticationService} from './authentication/authentication.service';
 import { RegistrationPageComponent } from './authentication/registration-page/registration-page.component';
+import { PolicyPageComponent } from './pages/policy-page/policy-page.component';
 
 
 const appRoutes: Routes = [
@@ -40,6 +41,11 @@ const appRoutes: Routes = [
     component: AboutPageComponent,
     data: { title: 'About Us: Novel Computation & Control' }
   },
+  {
+    path: 'policy',
+    component: PolicyPageComponent,
+    data: { title: 'Novel Computation & Control' }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -54,6 +60,7 @@ const appRoutes: Routes = [
     AuthorCardComponent,
     LoginPageComponent,
     RegistrationPageComponent,
+    PolicyPageComponent,
   ],
   imports: [
     BrowserModule,
