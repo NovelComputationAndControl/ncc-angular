@@ -16,6 +16,7 @@ import { LoginPageComponent } from './authentication/login-page/login-page.compo
 import {AuthenticationService} from './authentication/authentication.service';
 import { RegistrationPageComponent } from './authentication/registration-page/registration-page.component';
 import { PolicyPageComponent } from './pages/policy-page/policy-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 
 
 const appRoutes: Routes = [
@@ -46,6 +47,11 @@ const appRoutes: Routes = [
     component: PolicyPageComponent,
     data: { title: 'Novel Computation & Control' }
   },
+  {
+    path: 'contact',
+    component: ContactPageComponent,
+    data: { title: 'Novel Computation & Control' }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -61,6 +67,7 @@ const appRoutes: Routes = [
     LoginPageComponent,
     RegistrationPageComponent,
     PolicyPageComponent,
+    ContactPageComponent,
   ],
   imports: [
     BrowserModule,
