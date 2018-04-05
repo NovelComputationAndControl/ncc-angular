@@ -1,0 +1,54 @@
+<main class="container py-5">
+  <header>
+    <h1>Settings</h1>
+    <hr>
+  </header>
+  <article class="row">
+    <div class="col-md-4 col-sm-12 order-md-0 order-sm-1 order-1">
+
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal text-center">{{title}} {{firstName}} {{lastName}}</h4>
+        </div>
+        <div class="card-body">
+          <i class="d-block mx-auto img-avatar fas fa-user"></i>
+          <ul class="list-unstyled ml-2 mt-3 mb-4">
+            <li *ngIf="country"><b>Country:</b> {{country}}</li>
+            <li *ngIf="phone"><b>Phone:</b> {{phone}}</li>
+            <li *ngIf="email"><b>Email:</b> {{email}}</li>
+            <li *ngIf="affiliation"><b>Affiliation:</b> {{affiliation}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 col-sm-12 order-md-1 order-sm-0 order-0"> <!-- Tabs -->
+      <ngb-tabset type="pills">
+        <ngb-tab title="Account">
+          <ng-template ngbTabContent>
+            <div class="p-2">
+              <p>Account</p>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Email">
+          <ng-template ngbTabContent>
+            <div class="p-2">
+              <p>Email and stuff</p>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Password">
+          <ng-template ngbTabContent>
+            <div class="p-2">
+              <p>Password and stuff</p>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+
+    </div>
+  </article>
+</main>
+
+
+

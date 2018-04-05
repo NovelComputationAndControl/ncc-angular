@@ -17,6 +17,8 @@ import {AuthenticationService} from './authentication/authentication.service';
 import { RegistrationPageComponent } from './authentication/registration-page/registration-page.component';
 import { PolicyPageComponent } from './pages/policy-page/policy-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
+import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
+import {AuthGuard} from './authentication/auth-guard.service';
 
 
 const appRoutes: Routes = [
@@ -52,6 +54,12 @@ const appRoutes: Routes = [
     component: ContactPageComponent,
     data: { title: 'Novel Computation & Control' }
   },
+  {
+    path: 'settings',
+    canActivate: [AuthGuard],
+    component: SettingsPageComponent,
+    data: { title: 'Novel Computation & Control' }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -68,6 +76,7 @@ const appRoutes: Routes = [
     RegistrationPageComponent,
     PolicyPageComponent,
     ContactPageComponent,
+    SettingsPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +89,7 @@ const appRoutes: Routes = [
       { enableTracing: false } // <-- debugging purposes only
     )
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

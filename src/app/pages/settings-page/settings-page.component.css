@@ -1,0 +1,13 @@
+.img-avatar {
+  width: 10vh;
+  height: 100%;
+}
+
+.settings-nav-link {
+  margin: 1.5rem;
+}
+
+.settings-nav-link > li {
+  background-color: gray;
+  padding: .5rem;
+}
