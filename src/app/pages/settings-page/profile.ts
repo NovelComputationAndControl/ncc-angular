@@ -13,7 +13,5 @@ export class Profile {
   }
 
   constructor() {
-    this.title = 'Dr. ';
-    this.country = 'Romania';
   }
 }

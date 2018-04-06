@@ -10,6 +10,7 @@ import {catchError} from 'rxjs/operators';
 export class ProfileService {
   private profile: Profile;
   private apiProfileUrl: string;
+  private apiProfileUrlRaw: string;
   private headers: HttpHeaders;
 
   constructor(private auth: AuthenticationService, private http: HttpClient) {
@@ -17,7 +18,8 @@ export class ProfileService {
       .set('Content-Type', 'application/json')
       .set('Authorization', 'JWT ' + auth.GetUser.token);
 
-    this.apiProfileUrl = 'http://127.0.0.1:8000/api/profile/' + auth.GetUser.profile_pk + '/';
+    this.apiProfileUrlRaw = 'http://127.0.0.1:8000/api/profile/';
+    this.apiProfileUrl = this.apiProfileUrlRaw + auth.GetUser.profile_pk + '/';
     this.profile = new Profile();
   }
 
@@ -26,6 +28,8 @@ export class ProfileService {
       // A client-side or network error occurred. Handle it accordingly.
       return new ErrorObservable('An error occurred:' + error.error.message);
     }
+
+    console.log(error);
 
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
@@ -40,7 +44,25 @@ export class ProfileService {
     }).pipe(catchError(ProfileService.handleError));
   }
 
+  // Get the valid user titles from localStorage.
+  public getValidTitles(): Observable<any> {
+    return this.http.get(this.apiProfileUrlRaw + 'valid_titles/').map((response: Response) => {
+      return response;
+    }).pipe(catchError(ProfileService.handleError));
+  }
+
+  // Get the list of valid countries from localStorage.
+  public getValidCountries(): Observable<any> {
+    return this.http.get(this.apiProfileUrlRaw + 'valid_countries/').map((response: Response) => {
+      return response;
+    }).pipe(catchError(ProfileService.handleError));
+  }
+
   public updateProfile(data: Response): Observable<any> {
-    return new ErrorObservable('Not Implemennted!');
+    Object.keys(data).forEach((key) => (data[key] == null) && delete data[key]);
+    return this.http.put(this.apiProfileUrl, data, {headers: this.headers}).map((response: Response) => {
+      this.profile.copyInto(response);
+      return response;
+    }).pipe(catchError(ProfileService.handleError));
   }
 }
