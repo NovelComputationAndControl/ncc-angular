@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {Profile} from './profile';
+import {User} from '../../authentication/user';
+import {AuthenticationService} from '../../authentication/authentication.service';
+import {ProfileService} from './profile.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -6,22 +10,32 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./settings-page.component.css']
 })
 export class SettingsPageComponent implements OnInit {
-  title: string;
-  firstName: string;
-  lastName: string;
-  country: string;
-  phone: string;
-  email: string;
-  affiliation: string;
+  profile: Profile;
+  user: User;
 
-  constructor() {
-    this.title = 'Mr. ';
-    this.firstName = 'Denis';
-    this.lastName = 'Nucu';
-    this.phone = '777-7777-7777';
-    this.email = 'denis@cosmin.com';
-    this.affiliation = 'UPT';
-    this.country = "Romania";
+  message: string;
+  messageType: string;
+
+  private setMessage(type: string, mess: string) {
+    this.message = mess;
+    this.messageType = type;
+  }
+
+  constructor(private auth: AuthenticationService, private profileService: ProfileService) {
+    this.user = auth.GetUser;
+    this.profile = new Profile();
+
+    this.profileService.getProfile().subscribe(resp => {
+      if (resp) {
+        this.profile = resp;
+      }
+    }, (error) => {
+      if (error && error.error) { // API error
+        this.setMessage('danger', error.error.detail || error);
+      } else {
+        this.setMessage('danger', error);
+      }
+    });
   }
 
   ngOnInit() {

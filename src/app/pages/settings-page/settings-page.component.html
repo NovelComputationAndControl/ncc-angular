@@ -1,4 +1,9 @@
 <main class="container py-5">
+  <div *ngIf="message" class="col-12">
+    <ngb-alert [type]="messageType" [dismissible]="false">
+      <strong>Warning!</strong> {{ message }}
+    </ngb-alert>
+  </div>
   <header>
     <h1>Settings</h1>
     <hr>
@@ -8,15 +13,15 @@
 
       <div class="card mb-4 box-shadow">
         <div class="card-header">
-          <h4 class="my-0 font-weight-normal text-center">{{title}} {{firstName}} {{lastName}}</h4>
+          <h4 class="my-0 font-weight-normal text-center">{{profile.title}} {{user.firstName}} {{user.lastName}}</h4>
         </div>
         <div class="card-body">
           <i class="d-block mx-auto img-avatar fas fa-user"></i>
           <ul class="list-unstyled ml-2 mt-3 mb-4">
-            <li *ngIf="country"><b>Country:</b> {{country}}</li>
-            <li *ngIf="phone"><b>Phone:</b> {{phone}}</li>
-            <li *ngIf="email"><b>Email:</b> {{email}}</li>
-            <li *ngIf="affiliation"><b>Affiliation:</b> {{affiliation}}</li>
+            <li *ngIf="profile.country"><b>Country:</b> {{profile.country}}</li>
+            <li *ngIf="profile.phone"><b>Phone:</b> {{profile.phone}}</li>
+            <li *ngIf="user.email"><b>Email:</b> {{user.email}}</li>
+            <li *ngIf="profile.affiliation"><b>Affiliation:</b> {{profile.affiliation}}</li>
           </ul>
         </div>
       </div>

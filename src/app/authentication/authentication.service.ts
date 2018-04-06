@@ -33,8 +33,12 @@ export class AuthenticationService {
     localStorage.setItem('currentUser', null);
   }
 
+  get GetUser(): User {
+    return this.user;
+  }
+
   public isAuthenticated(): boolean {
-    return this.user && this.user.Token != null && new Date() < new Date(this.user.ExpirationDate * 1000);
+    return this.user && this.user.token != null && new Date() < new Date(this.user.expirationDate * 1000);
   }
 
   // Registers the user
