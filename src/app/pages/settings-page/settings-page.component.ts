@@ -16,6 +16,7 @@ export class SettingsPageComponent implements OnInit {
 
   profileForm: FormGroup;
   changePasswordForm: FormGroup;
+  changeNameForm: FormGroup;
 
   message: string;
   messageType: string;
@@ -60,6 +61,11 @@ export class SettingsPageComponent implements OnInit {
       new_password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
 
+    this.changeNameForm = new FormGroup({
+      first_name: new FormControl(this.user.firstName),
+      last_name: new FormControl(this.user.lastName),
+    });
+
     // Get the an array of valid titles and countries.
     this.validTitles = JSON.parse(localStorage.getItem('validTitles'));
     if (this.validTitles == null) {
@@ -97,6 +103,17 @@ export class SettingsPageComponent implements OnInit {
       this.setMessage('success', 'Password changed successfully!');
     }, (error) => {
       this.setMessage('danger', 'Password change failed!');
+    });
+  }
+
+  changeName(data: any): void {
+    this.profileService.changeUserName(data).subscribe(resp => {
+      this.setMessage('success', 'User name changed! These changes will be reflected next time you log in!');
+      this.user.firstName = resp.first_name;
+      this.user.lastName = resp.last_name;
+
+    }, (error) => {
+      this.setMessage('danger', 'User name change failed!');
     });
   }
 

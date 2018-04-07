@@ -13,7 +13,8 @@ export class ProfileService {
 
   private apiProfileUrl: string;
   private apiProfileUrlRaw: string;
-  private apiChangePasswrodUrl: string;
+  private apiChangePasswordUrl: string;
+  private apiChangeNameUrl: string;
 
   constructor(private auth: AuthenticationService, private http: HttpClient) {
     this.headers = new HttpHeaders()
@@ -22,7 +23,8 @@ export class ProfileService {
 
     this.apiProfileUrlRaw = 'http://127.0.0.1:8000/api/profile/';
     this.apiProfileUrl = this.apiProfileUrlRaw + auth.GetUser.profile_pk + '/';
-    this.apiChangePasswrodUrl = 'http://127.0.0.1:8000/api/change-password/';
+    this.apiChangePasswordUrl = 'http://127.0.0.1:8000/api/change-password/';
+    this.apiChangeNameUrl = 'http://127.0.0.1:8000/api/change-user-details/';
     this.profile = new Profile();
   }
 
@@ -70,7 +72,13 @@ export class ProfileService {
   }
 
   public changePassword(data: Response): Observable<any> {
-    return this.http.put(this.apiChangePasswrodUrl, data, {headers: this.headers}).map((response: Response) => {
+    return this.http.put(this.apiChangePasswordUrl, data, {headers: this.headers}).map((response: Response) => {
+      return response;
+    }).pipe(catchError(ProfileService.handleError));
+  }
+
+  public changeUserName(data: any): Observable<any> {
+    return this.http.put(this.apiChangeNameUrl, data, {headers: this.headers}).map((response: Response) => {
       return response;
     }).pipe(catchError(ProfileService.handleError));
   }
