@@ -74,7 +74,7 @@
             </div>
           </ng-template>
         </ngb-tab>
-        <ngb-tab title="Email">
+        <ngb-tab title="User">
           <ng-template ngbTabContent>
             <div class="p-2">
               <p>Email and stuff</p>
@@ -84,7 +84,59 @@
         <ngb-tab title="Password">
           <ng-template ngbTabContent>
             <div class="p-2">
-              <p>Password and stuff</p>
+
+              <div *ngIf="changePasswordForm.controls['old_password'].invalid && (changePasswordForm.controls['old_password'].dirty
+                          || changePasswordForm.controls['old_password'].touched)" class="col-12">
+                <ngb-alert [type]="'danger'" [dismissible]="false">
+                  <strong>Warning!</strong>
+                  <span *ngIf="changePasswordForm.controls['old_password'].errors.required">
+                    Old Password is required.
+                  </span>
+                  <span *ngIf="changePasswordForm.controls['old_password'].errors.minlength">
+                    Old Password must be at least 6 characters long.
+                  </span>
+                </ngb-alert>
+              </div>
+
+              <div *ngIf="changePasswordForm.controls['new_password'].invalid && (changePasswordForm.controls['new_password'].dirty
+                          || changePasswordForm.controls['new_password'].touched)" class="col-12">
+                <ngb-alert [type]="'danger'" [dismissible]="false">
+                  <strong>Warning!</strong>
+                  <span *ngIf="changePasswordForm.controls['new_password'].errors.required">
+                    New Password is required.
+                  </span>
+                  <span *ngIf="changePasswordForm.controls['new_password'].errors.minlength">
+                    New Password must be at least 6 characters long.
+                  </span>
+                </ngb-alert>
+              </div>
+
+              <!--Form-->
+              <form class="py-5"
+                    [formGroup]="changePasswordForm"
+                    (ngSubmit)="changePassword(changePasswordForm.value)"
+              >
+                <div class="form-group">
+                  <label for="oldpassword">Old Password</label>
+                  <input type="password" class="form-control" id="oldpassword"
+                         placeholder="Old Password"
+                         [formControl]="changePasswordForm.controls['old_password']">
+                </div>
+                <div class="form-group">
+                  <label for="password">New Password</label>
+                  <input type="password" class="form-control" id="password" placeholder="New Password"
+                         [formControl]="changePasswordForm.controls['new_password']">
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary"
+                        [ngClass]="{
+                            'disabled': changePasswordForm.controls['new_password'].invalid ||
+                                        changePasswordForm.controls['old_password'].invalid
+                          }">Change Password
+                </button>
+              </form>
+
+
             </div>
           </ng-template>
         </ngb-tab>

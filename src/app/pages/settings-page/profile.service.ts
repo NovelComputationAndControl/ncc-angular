@@ -9,9 +9,11 @@ import {catchError} from 'rxjs/operators';
 @Injectable()
 export class ProfileService {
   private profile: Profile;
+  private headers: HttpHeaders;
+
   private apiProfileUrl: string;
   private apiProfileUrlRaw: string;
-  private headers: HttpHeaders;
+  private apiChangePasswrodUrl: string;
 
   constructor(private auth: AuthenticationService, private http: HttpClient) {
     this.headers = new HttpHeaders()
@@ -20,6 +22,7 @@ export class ProfileService {
 
     this.apiProfileUrlRaw = 'http://127.0.0.1:8000/api/profile/';
     this.apiProfileUrl = this.apiProfileUrlRaw + auth.GetUser.profile_pk + '/';
+    this.apiChangePasswrodUrl = 'http://127.0.0.1:8000/api/change-password/';
     this.profile = new Profile();
   }
 
@@ -62,6 +65,12 @@ export class ProfileService {
     Object.keys(data).forEach((key) => (data[key] == null) && delete data[key]);
     return this.http.put(this.apiProfileUrl, data, {headers: this.headers}).map((response: Response) => {
       this.profile.copyInto(response);
+      return response;
+    }).pipe(catchError(ProfileService.handleError));
+  }
+
+  public changePassword(data: Response): Observable<any> {
+    return this.http.put(this.apiChangePasswrodUrl, data, {headers: this.headers}).map((response: Response) => {
       return response;
     }).pipe(catchError(ProfileService.handleError));
   }

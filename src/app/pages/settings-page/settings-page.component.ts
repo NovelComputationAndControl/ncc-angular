@@ -15,6 +15,7 @@ export class SettingsPageComponent implements OnInit {
   user: User;
 
   profileForm: FormGroup;
+  changePasswordForm: FormGroup;
 
   message: string;
   messageType: string;
@@ -30,7 +31,11 @@ export class SettingsPageComponent implements OnInit {
   constructor(private auth: AuthenticationService, private profileService: ProfileService, private fb: FormBuilder) {
     this.user = auth.GetUser;
     this.profile = new Profile();
+  }
 
+  ngOnInit() {
+
+    // Get the current Profile.
     this.profileService.getProfile().subscribe(resp => {
       if (resp) {
         this.profile = resp;
@@ -50,6 +55,10 @@ export class SettingsPageComponent implements OnInit {
       affiliation: new FormControl(this.profile.affiliation)
     });
 
+    this.changePasswordForm = new FormGroup({
+      old_password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      new_password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
 
     // Get the an array of valid titles and countries.
     this.validTitles = JSON.parse(localStorage.getItem('validTitles'));
@@ -71,14 +80,23 @@ export class SettingsPageComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
-
   updateProfile(data: any): void {
     this.profileService.updateProfile(data).subscribe(resp => {
       this.setMessage('success', 'Profile updated!');
     }, (error) => {
       this.setMessage('danger', 'Profile update failed!');
+    });
+  }
+
+  changePassword(data: any): void {
+    if (this.changePasswordForm.controls['old_password'].invalid || this.changePasswordForm.controls['new_password'].invalid) {
+      return;
+    }
+
+    this.profileService.changePassword(data).subscribe(resp => {
+      this.setMessage('success', 'Password changed successfully!');
+    }, (error) => {
+      this.setMessage('danger', 'Password change failed!');
     });
   }
 
