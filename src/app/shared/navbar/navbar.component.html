@@ -1,6 +1,7 @@
 <div class="container">
   <div class="navigation-bar" id="top">
-    <nav class="navbar navbar-expand-md navbar-light bg-red"><a routerLink="/" class="navbar-brand">Novel Computation &amp;
+    <nav class="navbar navbar-expand-md navbar-light bg-red"><a routerLink="/" class="navbar-brand">Novel Computation
+      &amp;
       Control</a>
       <button type="button" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse">
@@ -20,7 +21,7 @@
               </div>
               <div *ngIf="checkIfAuthenticated()">
                 <a class="dropdown-item" routerLink="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a class="dropdown-item" routerLink="/"><i class="fas fa-plus-square"></i> New Paper</a>
+                <a class="dropdown-item" routerLink="/submit"><i class="fas fa-plus-square"></i> Submit Manuscript</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" routerLink="/settings"><i class="fas fa-sliders-h"></i> Settings</a>
                 <div class="dropdown-divider"></div>

@@ -1,0 +1,183 @@
+<main class="container">
+  <div class="row justify-content-center">
+    <!--Error Messages-->
+    <div *ngIf="message" class="col-12">
+      <ngb-alert [type]="messageType" [dismissible]="false">
+        <strong>Warning!</strong> {{ message }}
+      </ngb-alert>
+    </div>
+
+    <!--Form-->
+    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+      <div class="text-center">
+        <div *ngIf="successfulSubmission">
+          <h1>Your paper has been submitted!</h1>
+          <p class="text-secondary">
+            You may now check your paper's status in your <a routerLink="/dashboard">dashboard</a>. Please check often to see if your paper has been
+            reviewed.
+          </p>
+          <p class="text-secondary">
+            To submit another paper, please reload this page.
+          </p>
+        </div>
+
+        <div *ngIf="!successfulSubmission">
+          <h1>Submit Manuscript</h1>
+          <p class="text-secondary">Please review our submission <a routerLink="/guidelines"><u>rules
+            and guides</u></a> before submitting a manuscript!</p>
+        </div>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['title'].invalid &&
+        (paperSubmitForm.controls['title'].dirty || paperSubmitForm.controls['title'].touched)" class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['title'].errors.required">
+              The title is required!
+            </li>
+            <li *ngIf="paperSubmitForm.controls['title'].errors.maxlength">
+              The title has a max length of 256.
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['description'].invalid &&
+        (paperSubmitForm.controls['description'].dirty || paperSubmitForm.controls['description'].touched)"
+           class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['description'].errors.required">
+              The description is required!
+            </li>
+            <li *ngIf="paperSubmitForm.controls['description'].errors.maxlength">
+              The description has a max length of 4096.
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['authors'].invalid &&
+        (paperSubmitForm.controls['authors'].dirty || paperSubmitForm.controls['authors'].touched)" class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['authors'].errors.required">
+              The authors field is required!
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['manuscript'].invalid &&
+        (paperSubmitForm.controls['manuscript'].dirty || paperSubmitForm.controls['manuscript'].touched)"
+           class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['manuscript'].errors.required">
+              The manuscript field is required!
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['cover_letter'].invalid &&
+        (paperSubmitForm.controls['cover_letter'].dirty || paperSubmitForm.controls['cover_letter'].touched)"
+           class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['cover_letter'].errors.required">
+              The cover letter field is required!
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+      <div *ngIf="paperSubmitForm.controls['supplementary_materials'].invalid &&
+        (paperSubmitForm.controls['supplementary_materials'].dirty || paperSubmitForm.controls['supplementary_materials'].touched)"
+           class="col-12">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+          <strong>Warning!</strong>
+          <ul>
+            <li *ngIf="paperSubmitForm.controls['supplementary_materials'].errors.required">
+              The supplementary_ aterials field is required!
+            </li>
+          </ul>
+        </ngb-alert>
+      </div>
+
+
+      <form class="py-5 was-validated"
+            [formGroup]="paperSubmitForm"
+            (ngSubmit)="onSubmit(paperSubmitForm.value)"
+      >
+
+        <div class="form-group">
+          <h2><label for="title">Paper Title</label></h2>
+          <input type="text" class="form-control" id="title" aria-describedby="titleH" required
+                 placeholder="Enter Title"
+                 [formControl]="paperSubmitForm.controls['title']">
+          <small id="titleH" class="form-text text-muted">Chose a title for your manuscript..</small>
+        </div>
+
+        <div class="form-group">
+          <h2><label for="description">Abstract</label></h2>
+          <textarea rows="5" type="text" class="form-control" id="description" required
+                    [formControl]="paperSubmitForm.controls['description']">
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <h2><label for="authors">Authors</label></h2>
+          <textarea rows="3" type="text" class="form-control" id="authors" required
+                    [formControl]="paperSubmitForm.controls['authors']">
+          </textarea>
+          <small class="form-text text-muted">Enter the name of the authors in this format:
+            <mark>First Name Last Name &lt;email&gt;</mark>
+            separated by a comma and a newline
+          </small>
+        </div>
+
+        <div class="form-group">
+          <h2><label>Files</label></h2>
+          <div class="form-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="manuscript" required
+                     [formControl]="paperSubmitForm.controls['manuscript']" (change)="selectManuscript($event)">
+              <label class=" custom-file-label" for="manuscript">Choose the manuscript file.</label>
+              <small class="form-text text-muted">
+                The file is automatically chosen after you've selected it!
+              </small>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="cover_letter" required
+                     [formControl]="paperSubmitForm.controls['cover_letter']" (change)="selectCoverLettter($event)">
+              <label class="custom-file-label" for="manuscript">Choose the cover letter file.</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="supplementary_materials"
+                     [formControl]="paperSubmitForm.controls['supplementary_materials']"
+                     (change)="selectSupplementaryMaterials($event)">
+              <label class="custom-file-label" for="manuscript">(Optional) Supplementary materials</label>
+            </div>
+          </div>
+          <small class="form-text text-muted">
+            Only text-like files or archives are allowed!
+          </small>
+        </div>
+
+        <button type="submit" class="btn btn-block btn-primary" *ngIf="!successfulSubmission"
+                [ngClass]="{ 'disabled': paperSubmitForm.invalid }">Submit Paper
+        </button>
+      </form>
+    </div>
+  </div>
+</main>

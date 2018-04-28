@@ -20,6 +20,7 @@ import {ContactPageComponent} from './pages/contact-page/contact-page.component'
 import {SettingsPageComponent} from './pages/settings-page/settings-page.component';
 import {AuthGuard} from './authentication/auth-guard.service';
 import {ProfileService} from './pages/settings-page/profile.service';
+import {PaperSubmissionComponent} from './pages/paper-submission/paper-submission.component';
 
 
 const appRoutes: Routes = [
@@ -28,40 +29,41 @@ const appRoutes: Routes = [
   {
     path: '',
     component: IndexPageComponent,
-    data: {title: 'Novel Computation & Control'},
   },
   {
     path: 'login',
     component: LoginPageComponent,
-    data: {title: 'Novel Computation & Control'},
   },
   {
     path: 'register',
     component: RegistrationPageComponent,
-    data: {title: 'Novel Computation & Control'},
   },
   {
     path: 'about',
     component: AboutPageComponent,
-    data: {title: 'About Us: Novel Computation & Control'}
   },
   {
     path: 'policy',
     component: PolicyPageComponent,
-    data: {title: 'Novel Computation & Control'}
   },
   {
     path: 'contact',
     component: ContactPageComponent,
-    data: {title: 'Novel Computation & Control'}
   },
   {
     path: 'settings',
     canActivate: [AuthGuard],
     component: SettingsPageComponent,
-    data: {title: 'Novel Computation & Control'}
   },
-  {path: '**', component: PageNotFoundComponent}
+  {
+    path: 'submit',
+    canActivate: [AuthGuard],
+    component: PaperSubmissionComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({
@@ -78,6 +80,7 @@ const appRoutes: Routes = [
     PolicyPageComponent,
     ContactPageComponent,
     SettingsPageComponent,
+    PaperSubmissionComponent,
   ],
   imports: [
     BrowserModule,
