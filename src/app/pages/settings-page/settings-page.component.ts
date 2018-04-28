@@ -35,11 +35,26 @@ export class SettingsPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    const self = this;
+
+    self.profileForm = new FormGroup({
+      title: new FormControl(this.profile.title),
+      phone: new FormControl(this.profile.phone),
+      country: new FormControl(this.profile.country),
+      affiliation: new FormControl(this.profile.affiliation)
+    });
 
     // Get the current Profile.
     this.profileService.getProfile().subscribe(resp => {
       if (resp) {
         this.profile = resp;
+
+        self.profileForm = new FormGroup({
+          title: new FormControl(this.profile.title),
+          phone: new FormControl(this.profile.phone),
+          country: new FormControl(this.profile.country),
+          affiliation: new FormControl(this.profile.affiliation)
+        });
       }
     }, (error) => {
       if (error && error.error) { // API error
@@ -49,12 +64,6 @@ export class SettingsPageComponent implements OnInit {
       }
     });
 
-    this.profileForm = new FormGroup({
-      title: new FormControl(this.profile.title),
-      phone: new FormControl(this.profile.phone),
-      country: new FormControl(this.profile.country),
-      affiliation: new FormControl(this.profile.affiliation)
-    });
 
     this.changePasswordForm = new FormGroup({
       old_password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -90,7 +99,7 @@ export class SettingsPageComponent implements OnInit {
     this.profileService.updateProfile(data).subscribe(resp => {
       this.setMessage('success', 'Profile updated!');
     }, (error) => {
-      this.setMessage('danger', 'Profile update failed!');
+      this.setMessage('danger', error);
     });
   }
 
