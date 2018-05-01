@@ -1,5 +1,12 @@
 <main class="container">
   <div class="row justify-content-center">
+    <!--Error Messages-->
+    <div *ngIf="message" class="col-12">
+      <ngb-alert [type]="messageType" [dismissible]="false">
+        <strong>Warning!</strong> {{ message }}
+      </ngb-alert>
+    </div>
+
     <div class="text-center">
       <h1>Your Dashboard</h1>
       <p class="text-secondary">Here you will be able to see your submitted papers and their status!</p>

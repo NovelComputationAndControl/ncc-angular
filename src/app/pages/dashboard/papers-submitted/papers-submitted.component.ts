@@ -1,42 +1,36 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpEventType} from '@angular/common/http';
+import {PapersService} from '../papers.service';
 
 @Component({
   selector: 'app-papers-submitted',
   templateUrl: './papers-submitted.component.html',
+  providers: [PapersService]
 })
 export class PapersSubmittedComponent implements OnInit {
-  data: any;
+  data: any[];
 
-  constructor() {
-    this.data = [
-      {
-        'user': 2,
-        'editor': null,
-        'title': 'asd',
-        'description': 'asd',
-        'authors': 'asd',
-        'status': 'processing',
-        'manuscript': 'http://127.0.0.1:8000/media/papers/2_denis%40denis.com/asd/Project-1-Automatic-control-of-a-greenhouse_zWW9Jzi.pdf',
-        'cover_letter': 'http://127.0.0.1:8000/media/papers/2_denis%40denis.com/asd/Project-1-Automatic-control-of-a-greenhouse_XuKWSFu.pdf',
-        'supplementary_materials': null,
-        'reviewers': []
-      },
-      {
-        'user': 2,
-        'editor': null,
-        'title': 'asd',
-        'description': 'asd',
-        'authors': 'asd',
-        'status': 'processing',
-        'manuscript': 'http://127.0.0.1:8000/media/papers/2_denis%40denis.com/asd/Project-1-Automatic-control-of-a-greenhouse_vgxvx6Z.pdf',
-        'cover_letter': 'http://127.0.0.1:8000/media/papers/2_denis%40denis.com/asd/Project-1-Automatic-control-of-a-greenhouse_9xY8ejk.pdf',
-        'supplementary_materials': null,
-        'reviewers': []
-      },
-    ];
+  message: string;
+  messageType: string;
+
+  constructor(private papers: PapersService) {
   }
 
   ngOnInit() {
+    this.papers.getSubmittedPapers().subscribe(resp => {
+      if (resp) {
+        this.data = resp.body;
+      } else {
+        this.setMessage('danger', 'Could not retrieve the list of submitted papers');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could not retrieve the list of submitted papers');
+    });
   }
 
+  private setMessage(type: string, mess: string) {
+    this.message = mess;
+    this.messageType = type;
+  }
 }

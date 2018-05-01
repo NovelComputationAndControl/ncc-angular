@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {AuthenticationService} from '../../authentication/authentication.service';
-import {catchError} from 'rxjs/operators';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
 @Injectable()
@@ -14,7 +13,6 @@ export class PaperSubmissionService {
     this.apiUrl = 'http://127.0.0.1:8000/api/papers/';
 
     this.headers = new HttpHeaders()
-    // .set('Content-Type', 'multipart/form-data')
       .set('Authorization', 'JWT ' + auth.GetUser.token);
   }
 
