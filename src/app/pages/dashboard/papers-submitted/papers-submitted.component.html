@@ -1,0 +1,54 @@
+<main class="container">
+  <div class="row justify-content-center">
+    <div class="text-center">
+      <h1>Your Dashboard</h1>
+      <p class="text-secondary">Here you will be able to see your submitted papers and their status!</p>
+
+      <ul class="list-inline list-unstyled">
+        <li class="list-inline-item"><a href="#">Your submitted Papers</a></li>
+        <li class="list-inline-item"><a href="#">Papers to Review</a></li>
+      </ul>
+      <table class="table table-hover table-responsive">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Status</th>
+          <th scope="col">Editor</th>
+          <th scope="col">Manuscript</th>
+          <th scope="col">Cover Letter</th>
+          <th scope="col">Supplementary Materials</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let paper of data; let i = index">
+          <th scope="row">{{i + 1}}</th>
+          <td class="text-capitalize">{{paper.title | slice:0:30 }}</td>
+          <td class="text-capitalize">{{ paper.status}}</td>
+          <td class="text-capitalize">{{ paper.editor || 'Not Assigned'}}</td>
+          <td><a [href]="paper.manuscript">Download</a></td>
+          <td><a [href]="paper.cover_letter">Download</a></td>
+          <td *ngIf="paper.supplementary_materials"><a [href]="paper.supplementary_materials">Download</a></td>
+          <td *ngIf="!paper.supplementary_materials"><p>None</p></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <header>
+      <h1>Aims and scope</h1>
+    </header>
+    <main>
+      <p>The Novel Computation and Control Journal is a new scientific publication oriented towards hot areas in digital
+        computing, that include (but are not limited to) bioinformatics, genomics, big data, machine and deep learning,
+        cyber-physical systems, emergent behavior in autonomous systems etc.</p>
+
+      <p>Our editorial policy aims at strongly encouraging the reproducibility of the scientific results, therefore
+        authors will submit online all supplemental materials required, such as source code, databases, etc.</p>
+
+      <p>This journal will be published and promoted online, with its printed version also available upon request.</p>
+    </main>
+  </div>
+  <div style="height: 31vh;"></div>
+</main>

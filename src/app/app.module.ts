@@ -21,6 +21,7 @@ import {SettingsPageComponent} from './pages/settings-page/settings-page.compone
 import {AuthGuard} from './authentication/auth-guard.service';
 import {ProfileService} from './pages/settings-page/profile.service';
 import {PaperSubmissionComponent} from './pages/paper-submission/paper-submission.component';
+import { PapersSubmittedComponent } from './pages/dashboard/papers-submitted/papers-submitted.component';
 
 
 const appRoutes: Routes = [
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
     path: '',
     component: IndexPageComponent,
   },
+  // Authentication
   {
     path: 'login',
     component: LoginPageComponent,
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
     path: 'register',
     component: RegistrationPageComponent,
   },
+  // Static Pages
   {
     path: 'about',
     component: AboutPageComponent,
@@ -50,15 +53,22 @@ const appRoutes: Routes = [
     path: 'contact',
     component: ContactPageComponent,
   },
+  // User Profile
   {
     path: 'settings',
     canActivate: [AuthGuard],
     component: SettingsPageComponent,
   },
+  // Journal Related Pages
   {
     path: 'submit',
     canActivate: [AuthGuard],
     component: PaperSubmissionComponent
+  },
+  {
+    path: 'dashboard',
+    canActivate: [AuthGuard],
+    component: PapersSubmittedComponent
   },
   {
     path: '**',
@@ -81,6 +91,7 @@ const appRoutes: Routes = [
     ContactPageComponent,
     SettingsPageComponent,
     PaperSubmissionComponent,
+    PapersSubmittedComponent,
   ],
   imports: [
     BrowserModule,
