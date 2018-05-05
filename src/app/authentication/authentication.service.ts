@@ -27,7 +27,7 @@ export class AuthenticationService {
     }
   }
 
-  // Deletes the user information from localStorage.
+  // logOut deletes the user information from localStorage.
   public logOut() {
     this.user = null;
     localStorage.setItem('currentUser', null);
@@ -37,6 +37,12 @@ export class AuthenticationService {
     return this.user;
   }
 
+  // isStaff returns a boolean indicating if the user has staff level permissions.
+  public isStaff(): boolean {
+    return this.user.is_staff;
+  }
+
+  // isAuthenticated returns whether the user has an active token or not.
   public isAuthenticated(): boolean {
     return this.user && this.user.token != null && new Date() < new Date(this.user.expirationDate * 1000);
   }

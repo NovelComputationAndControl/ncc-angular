@@ -21,7 +21,11 @@ import {SettingsPageComponent} from './pages/settings-page/settings-page.compone
 import {AuthGuard} from './authentication/auth-guard.service';
 import {ProfileService} from './pages/settings-page/profile.service';
 import {PaperSubmissionComponent} from './pages/paper-submission/paper-submission.component';
-import { PapersSubmittedComponent } from './pages/dashboard/papers-submitted/papers-submitted.component';
+import {PapersSubmittedComponent} from './pages/dashboard/papers-submitted/papers-submitted.component';
+import {StaffGuard} from './authentication/staff-guard.service';
+import {PapersWithEditorComponent} from './pages/dashboard/papers-with-editor/papers-with-editor.component';
+import {DashboardComponent} from './pages/dashboard/dashboard/dashboard.component';
+import {PapersWithoutEditorComponent} from './pages/dashboard/papers-without-editor/papers-without-editor.component';
 
 
 const appRoutes: Routes = [
@@ -68,7 +72,29 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     canActivate: [AuthGuard],
-    component: PapersSubmittedComponent
+    component: DashboardComponent,
+    children: [
+      {
+        path: 'with-editor',
+        canActivate: [StaffGuard],
+        component: PapersWithEditorComponent,
+      },
+      {
+        path: 'no-editor',
+        canActivate: [StaffGuard],
+        component: PapersWithoutEditorComponent,
+      },
+      {
+        path: '',
+        canActivate: [],
+        component: PapersSubmittedComponent,
+      },
+    ]
+  },
+  {
+    path: 'with-editor',
+    canActivate: [StaffGuard],
+    component: PapersWithEditorComponent,
   },
   {
     path: '**',
@@ -92,6 +118,9 @@ const appRoutes: Routes = [
     SettingsPageComponent,
     PaperSubmissionComponent,
     PapersSubmittedComponent,
+    PapersWithEditorComponent,
+    DashboardComponent,
+    PapersWithoutEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,7 +133,12 @@ const appRoutes: Routes = [
       {enableTracing: false} // <-- debugging purposes only
     )
   ],
-  providers: [AuthenticationService, AuthGuard, ProfileService],
+  providers: [
+    AuthenticationService,
+    ProfileService,
+    AuthGuard,
+    StaffGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

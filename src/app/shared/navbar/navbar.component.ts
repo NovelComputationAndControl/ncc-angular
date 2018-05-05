@@ -19,6 +19,10 @@ export class NavbarComponent {
     return this._isAuthenticated;
   }
 
+  public isStaff(): boolean {
+    return this.auth.isStaff();
+  }
+
   public logOut() {
     this.auth.logOut();
     this.router.navigateByUrl('/');

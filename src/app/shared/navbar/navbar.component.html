@@ -21,6 +21,12 @@
               </div>
               <div *ngIf="checkIfAuthenticated()">
                 <a class="dropdown-item" routerLink="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a *ngIf="isStaff()" class="dropdown-item" routerLink="/dashboard/no-editor"><i
+                  class="fas fa-user-times"></i>
+                  Papers without editor</a>
+                <a *ngIf="isStaff()" class="dropdown-item" routerLink="/dashboard/with-editor"><i
+                  class="fas fa-user-plus"></i>
+                  Papers with editor</a>
                 <a class="dropdown-item" routerLink="/submit"><i class="fas fa-plus-square"></i> Submit Manuscript</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" routerLink="/settings"><i class="fas fa-sliders-h"></i> Settings</a>

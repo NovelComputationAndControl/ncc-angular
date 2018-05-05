@@ -6,6 +6,7 @@ export class User {
   firstName: string;
   lastName: string;
   expirationDate: number;
+  is_staff: boolean;
 
   public copyInto(user: any) {
     this.id = user && user.id || null;
@@ -15,6 +16,7 @@ export class User {
     this.token = user && user.token || null;
     this.email = user && user.email || null;
     this.expirationDate = user && user.expiration_date || null;
+    this.is_staff = user && user.is_staff || null;
   }
 
   constructor() {

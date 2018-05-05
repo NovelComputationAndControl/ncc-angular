@@ -7,7 +7,7 @@
   </div>
 
   <div class="text-center">
-    <h1>Your submitted papers</h1>
+    <h1>Your Dashboard</h1>
     <p class="text-secondary">Here you will be able to see your submitted papers and their status!</p>
 
     <table class="table table-hover table-responsive">
@@ -27,8 +27,8 @@
         <th scope="row">{{i + 1}}</th>
         <td class="text-capitalize">{{paper.title | slice:0:30 }}</td>
         <td class="text-capitalize">{{ paper.status}}</td>
-        <td *ngIf="paper.editor" class="text-capitalize">{{ paper.editor.first_name }} {{ paper.editor.last_name }}</td>
-        <td *ngIf="!paper.editor" class="text-capitalize">Not Assigned</td>
+        <td class="text-capitalize"><a [href]="'mailto:' + paper.editor.email">{{ paper.editor.first_name }} {{
+          paper.editor.last_name}}</a></td>
         <td><a [href]="paper.manuscript">Download</a></td>
         <td><a [href]="paper.cover_letter">Download</a></td>
         <td *ngIf="paper.supplementary_materials"><a [href]="paper.supplementary_materials">Download</a></td>
