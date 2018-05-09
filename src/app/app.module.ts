@@ -26,11 +26,10 @@ import {StaffGuard} from './authentication/staff-guard.service';
 import {PapersWithEditorComponent} from './pages/dashboard/papers-with-editor/papers-with-editor.component';
 import {DashboardComponent} from './pages/dashboard/dashboard/dashboard.component';
 import {PapersWithoutEditorComponent} from './pages/dashboard/papers-without-editor/papers-without-editor.component';
+import { PaperDetailComponent } from './pages/dashboard/paper-detail/paper-detail.component';
 
 
 const appRoutes: Routes = [
-  // { path: 'crisis-center', component: CrisisListComponent },
-  // { path: 'hero/:id',      component: HeroDetailComponent },
   {
     path: '',
     component: IndexPageComponent,
@@ -68,6 +67,11 @@ const appRoutes: Routes = [
     path: 'submit',
     canActivate: [AuthGuard],
     component: PaperSubmissionComponent
+  },
+  {
+    path: 'paper/:id',
+    canActivate: [AuthGuard],
+    component: PaperDetailComponent
   },
   {
     path: 'dashboard',
@@ -121,6 +125,7 @@ const appRoutes: Routes = [
     PapersWithEditorComponent,
     DashboardComponent,
     PapersWithoutEditorComponent,
+    PaperDetailComponent,
   ],
   imports: [
     BrowserModule,

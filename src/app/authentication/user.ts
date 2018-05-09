@@ -17,6 +17,7 @@ export class User {
     this.email = user && user.email || null;
     this.expirationDate = user && user.expiration_date || null;
     this.is_staff = user && user.is_staff || null;
+    return this;
   }
 
   constructor() {

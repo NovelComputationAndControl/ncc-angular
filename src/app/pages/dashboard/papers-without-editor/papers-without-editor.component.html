@@ -25,7 +25,7 @@
       <tbody>
       <tr *ngFor="let paper of data; let i = index">
         <th scope="row">{{i + 1}}</th>
-        <td class="text-capitalize">{{paper.title | slice:0:30 }}</td>
+        <td class="text-capitalize"><a [routerLink]="'/paper/'+paper.id">{{paper.title | slice:0:30 }}</a></td>
         <td class="text-capitalize">{{ paper.status}}</td>
         <td class="text-capitalize">
           <button class="btn btn-primary" (click)="assignEditor()">Assign Yourself</button>

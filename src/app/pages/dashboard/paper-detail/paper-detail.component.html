@@ -1,0 +1,55 @@
+<main class="container">
+  <div class="row">
+    <header>
+      <h2>Paper Detail</h2>
+    </header>
+    <hr>
+    <div class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
+      <hr/>
+      <h3 class="text-capitalize">{{ paper.title | slice:0:30 }} by
+        <a [href]="'mailto://'+paper.user.email">{{ paper.user.firstName }} {{ paper.user.lastName }}</a></h3>
+      <p class="text-muted small">This paper is being reviewed by editor: <a [href]="'mailto://'+paper.editor.email">{{
+        paper.editor.firstName }} {{ paper.editor.lastName }}</a></p>
+      <p class="small text-muted">Current Status: <span class="text-capitalize">{{ paper.status }}</span></p>
+      <div *ngIf="isStaff()">
+        <hr/>
+        <h4 class="text-muted">Actions</h4>
+        <p class="small text-muted">You can do the following things to this paper:</p>
+        <ul>
+          <li><a class="small" href="#">Assign yourself as an editor.</a></li>
+          <li><a class="small" href="#">Delete the current editor.</a></li>
+          <li><a class="small" href="#">Submit a review for the editor.</a></li>
+          <li><a class="small" href="#">Submit editor review.</a></li>
+          <li><a class="small" href="" (click)="openFeedBackModal(content, $event)">View feedback.</a></li>
+        </ul>
+      </div>
+      <hr/>
+      <h3>Authors</h3>
+      <p>{{ paper.authors }}</p>
+      <h3>Abstract</h3>
+      <p>{{ paper.description }}</p>
+      <h3>Links</h3>
+      <ul>
+        <li><a [href]="paper.manuscript">Download Manuscript</a></li>
+        <li><a [href]="paper.cover_letter">Download Cover Letter</a></li>
+        <li *ngIf="paper.supplementary_materials"><a [href]="paper.supplementary_materials">Download Supplementary
+          Materials</a></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- Feedback Modal -->
+<ng-template #content let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Paper Feedback</h4>
+  </div>
+  <div class="modal-body">
+    <p>One fine body&hellip;</p>
+    <h4>Final</h4>
+    <p>ok</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
