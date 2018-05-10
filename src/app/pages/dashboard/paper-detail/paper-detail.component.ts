@@ -13,6 +13,8 @@ import {PapersService} from '../papers.service';
 export class PaperDetailComponent implements OnInit {
   private id: number;
   public paper: Paper;
+  public message: string;
+  public messageType: string;
 
   constructor(private route: ActivatedRoute, private router: Router, private auth: AuthenticationService, private modalService: NgbModal,
               private papers: PapersService) {
@@ -26,6 +28,41 @@ export class PaperDetailComponent implements OnInit {
 
   public isStaff(): boolean {
     return this.auth.isStaff();
+  }
+
+  public showActionWindow(): boolean {
+    // TODO: Incomplete;
+    return this.isStaff();
+  }
+
+  setEditor(paper: Paper, e: Event) {
+    e.preventDefault();
+    this.papers.setPaperEditor(paper.id, 'POST').subscribe(resp => {
+      if (resp) {
+        this.setMessage('success', 'Editor set successfully!');
+        this.paper.editor = this.auth.GetUser;
+      } else {
+        this.setMessage('danger', 'Could not set editor!');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could not set editor!');
+    });
+  }
+
+  deleteEditor(paper: Paper, e: Event) {
+    e.preventDefault();
+    this.papers.setPaperEditor(paper.id, 'DELETE').subscribe(resp => {
+      if (resp) {
+        this.setMessage('success', 'Editor deleted successfully!');
+        this.paper.editor = null;
+      } else {
+        this.setMessage('danger', 'Could not set editor!');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could not set editor!');
+    });
   }
 
   ngOnInit() {
@@ -46,4 +83,11 @@ export class PaperDetailComponent implements OnInit {
     this.modalService.open(content).result.then((result) => {
     });
   }
+
+  private setMessage(type: string, mess: string) {
+    this.message = mess;
+    this.messageType = type;
+  }
+
+
 }

@@ -28,7 +28,7 @@
         <td class="text-capitalize"><a [routerLink]="'/paper/'+paper.id">{{paper.title | slice:0:30 }}</a></td>
         <td class="text-capitalize">{{ paper.status}}</td>
         <td class="text-capitalize">
-          <button class="btn btn-primary" (click)="assignEditor()">Assign Yourself</button>
+          <button class="btn btn-primary" (click)="assignEditor(paper)">Assign Yourself</button>
         </td>
         <td><a [href]="paper.manuscript">Download</a></td>
         <td><a [href]="paper.cover_letter">Download</a></td>

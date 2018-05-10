@@ -4,20 +4,29 @@
       <h2>Paper Detail</h2>
     </header>
     <hr>
-    <div class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
+    <!--Error Messages-->
+    <div *ngIf="message" class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
+      <ngb-alert [type]="messageType" [dismissible]="false">
+        <strong>Warning!</strong> {{ message }}
+      </ngb-alert>
+    </div>
+    <div *ngIf="paper" class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
       <hr/>
       <h3 class="text-capitalize">{{ paper.title | slice:0:30 }} by
         <a [href]="'mailto://'+paper.user.email">{{ paper.user.firstName }} {{ paper.user.lastName }}</a></h3>
-      <p class="text-muted small">This paper is being reviewed by editor: <a [href]="'mailto://'+paper.editor.email">{{
+      <p *ngIf="paper.editor" class="text-muted small">This paper is being reviewed by editor: <a
+        [href]="'mailto://'+paper.editor.email">{{
         paper.editor.firstName }} {{ paper.editor.lastName }}</a></p>
       <p class="small text-muted">Current Status: <span class="text-capitalize">{{ paper.status }}</span></p>
-      <div *ngIf="isStaff()">
+      <div *ngIf="showActionWindow()">
         <hr/>
         <h4 class="text-muted">Actions</h4>
         <p class="small text-muted">You can do the following things to this paper:</p>
         <ul>
-          <li><a class="small" href="#">Assign yourself as an editor.</a></li>
-          <li><a class="small" href="#">Delete the current editor.</a></li>
+          <li *ngIf="isStaff()"><a class="small" href="" (click)="setEditor(paper, $event)">Assign yourself as an
+            editor.</a></li>
+          <li *ngIf="isStaff()"><a class="small" href="" (click)="deleteEditor(paper, $event)">Delete the current
+            editor.</a></li>
           <li><a class="small" href="#">Submit a review for the editor.</a></li>
           <li><a class="small" href="#">Submit editor review.</a></li>
           <li><a class="small" href="" (click)="openFeedBackModal(content, $event)">View feedback.</a></li>

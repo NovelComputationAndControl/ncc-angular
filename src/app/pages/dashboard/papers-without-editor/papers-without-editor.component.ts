@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PapersService} from '../papers.service';
+import {Paper} from '../paper';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-papers-without-editor',
@@ -12,7 +14,7 @@ export class PapersWithoutEditorComponent implements OnInit {
   message: string;
   messageType: string;
 
-  constructor(private papers: PapersService) {
+  constructor(private papers: PapersService, private router: Router) {
   }
 
   ngOnInit() {
@@ -28,10 +30,18 @@ export class PapersWithoutEditorComponent implements OnInit {
     });
   }
 
-  public assignEditor() {
-    console.log('assignEditor not implemented');
-    // assign editor
-    // redirect to details.
+  public assignEditor(paper: Paper) {
+    this.papers.setPaperEditor(paper.id, 'POST').subscribe(resp => {
+      if (resp) {
+        this.setMessage('success', 'Editor set successfully!');
+        this.router.navigateByUrl(`/paper/${paper.id}`);
+      } else {
+        this.setMessage('danger', 'Could not set editor!');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could not set editor!');
+    });
   }
 
   private setMessage(type: string, mess: string) {

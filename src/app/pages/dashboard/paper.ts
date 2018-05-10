@@ -22,8 +22,8 @@ export class Paper {
       return;
     }
     this.id = paper.id || null;
-    this.user = new User().copyInto(paper.user);
-    this.editor = new User().copyInto(paper.editor);
+    this.user = paper.user && new User().copyInto(paper.user) || null;
+    this.editor = paper.editor && new User().copyInto(paper.editor) || null;
     this.title = paper.title || null;
     this.description = paper.description || null;
     this.authors = paper.authors || null;
