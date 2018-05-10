@@ -22,7 +22,7 @@ export class ProfileService {
       .set('Authorization', 'JWT ' + auth.GetUser.token);
 
     this.apiProfileUrlRaw = 'http://127.0.0.1:8000/api/profile/';
-    this.apiProfileUrl = this.apiProfileUrlRaw + auth.GetUser.profile_pk + '/';
+    this.apiProfileUrl = this.apiProfileUrlRaw + auth.GetUser.id + '/';
     this.apiChangePasswordUrl = 'http://127.0.0.1:8000/api/change-password/';
     this.apiChangeNameUrl = 'http://127.0.0.1:8000/api/change-user-details/';
     this.profile = new Profile();
