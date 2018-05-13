@@ -18,8 +18,10 @@
         [href]="'mailto://'+paper.editor.email">{{
         paper.editor.firstName }} {{ paper.editor.lastName }}</a></p>
       <p class="small text-muted">Current Status: <span class="text-capitalize">{{ paper.status }}</span></p>
+      <hr/>
+    </div>
+    <div *ngIf="paper" class="col-12 col-sm-12 col-md-5 col-lg-5  offset-md-1 offset-lg-1">
       <div *ngIf="showActionWindow()">
-        <hr/>
         <h4 class="text-muted">Actions</h4>
         <p class="small text-muted">You can do the following things to this paper:</p>
         <ul>
@@ -32,6 +34,35 @@
           <li><a class="small" href="" (click)="openFeedBackModal(content, $event)">View feedback.</a></li>
         </ul>
       </div>
+    </div>
+    <div *ngIf="paper" class="col-12 col-sm-12 col-md-5 col-lg-5  offset-md-1 offset-lg-1">
+      <div *ngIf="showReviewersWindow()">
+        <h4 class="text-muted">Reviewers</h4>
+        <p class="small text-muted">The following users have been assigned to review this paper:</p>
+        <ul>
+          <li *ngIf="!hasReviewers()">No reviewers.</li>
+          <li *ngFor="let reviewer of paper.reviewers">{{ reviewer.firstName }} {{ reviewer.lastName }}
+            <a href="" (click)="deleteReviewer(reviewer, $event)"><i class="fas fa-trash-alt"></i> Remove</a>
+          </li>
+        </ul>
+        <p class="small text-muted">You can add and remove as many reviewers as you like, just enter their email
+          address. For the moment you may only add registered users.</p>
+        <form class="form-inline">
+          <ngb-alert [type]="'danger'" [dismissible]="false">
+            <p>Adding reviewers via email is not supported, yet. Only user id.</p>
+          </ngb-alert>
+          <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">@</div>
+            </div>
+            <input #reviever_input type="text" class="form-control" id="reviewer" placeholder="Email">
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2" (click)="addReviewer(reviever_input.value)">Add Reviewer</button>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="paper" class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
       <hr/>
       <h3>Authors</h3>
       <p>{{ paper.authors }}</p>

@@ -12,6 +12,7 @@ export class PapersService {
 
   private headers: HttpHeaders;
   private setPaperEditorUrl: string;
+  private setReviewerUrl: string;
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
     this.submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
@@ -19,9 +20,22 @@ export class PapersService {
     this.papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
     this.paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
     this.setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
+    this.setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
 
     this.headers = new HttpHeaders()
       .set('Authorization', 'JWT ' + auth.GetUser.token);
+  }
+
+  // deleteReviewer deletes a reviewer from a paper.
+  public setReviewer(revId: number, paperId: number, method: string): Observable<any> {
+    const options = {
+      headers: this.headers,
+    };
+    const data = new FormData();
+    data.append('user_pk', revId.toString());
+
+    const req = new HttpRequest(method, `${this.setReviewerUrl}${paperId}/`, data, options);
+    return this.http.request(req);
   }
 
   // getSubmittedPapers returns a JSON object containing a list of user submitted papers.

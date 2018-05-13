@@ -4,6 +4,7 @@ import {Paper} from '../paper';
 import {AuthenticationService} from '../../../authentication/authentication.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PapersService} from '../papers.service';
+import {User} from '../../../authentication/user';
 
 @Component({
   selector: 'app-paper-detail',
@@ -35,6 +36,14 @@ export class PaperDetailComponent implements OnInit {
     return this.isStaff();
   }
 
+  public showReviewersWindow(): boolean {
+    return this.paper.user.id === this.auth.GetUser.id;
+  }
+
+  public hasReviewers(): boolean {
+    return this.paper.reviewers && this.paper.reviewers.length !== 0;
+  }
+
   setEditor(paper: Paper, e: Event) {
     e.preventDefault();
     this.papers.setPaperEditor(paper.id, 'POST').subscribe(resp => {
@@ -47,6 +56,47 @@ export class PaperDetailComponent implements OnInit {
 
     }, (error) => {
       this.setMessage('danger', 'Could not set editor!');
+    });
+  }
+
+  deleteReviewer(rev: User, e: Event) {
+    e.preventDefault();
+    this.papers.setReviewer(rev.id, this.paper.id, 'DELETE').subscribe(resp => {
+      if (resp) {
+        this.setMessage('success', 'Reviewer removed!');
+        // Delete the reviewer from current reviewers.
+        const index = this.paper.reviewers.indexOf(rev);
+        if (index > -1) {
+          this.paper.reviewers.splice(index, 1);
+        }
+      } else {
+        this.setMessage('danger', 'Could not remove reviewer!');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could perform selected operation!');
+    });
+  }
+
+  addReviewer(elem: HTMLInputElement) {
+    const id = +elem;
+    if (!id) {
+      return;
+    }
+
+    this.papers.setReviewer(id, this.paper.id, 'PUT').subscribe(resp => {
+      if (resp) {
+        this.setMessage('success', 'Reviewer added!');
+        if (resp.ok) { /* Add reviewers to paper */
+          this.paper.reviewers = [];
+          this.paper.addReviewers(resp.body);
+        }
+      } else {
+        this.setMessage('danger', 'Could not add reviewer!');
+      }
+
+    }, (error) => {
+      this.setMessage('danger', 'Could perform selected operation!');
     });
   }
 

@@ -31,11 +31,15 @@ export class Paper {
     this.manuscript = paper.manuscript || null;
     this.cover_letter = paper.cover_letter || null;
     this.supplementary_materials = paper.supplementary_materials || null;
+    this.addReviewers(paper);
+    return this;
+  }
+
+  addReviewers(paper: any) {
     if (paper.reviewers) {
       for (const reviewer of paper.reviewers) {
         this.reviewers.push(new User().copyInto(reviewer));
       }
     }
-    return this;
   }
 }
