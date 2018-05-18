@@ -27,6 +27,7 @@ import {PapersWithEditorComponent} from './pages/dashboard/papers-with-editor/pa
 import {DashboardComponent} from './pages/dashboard/dashboard/dashboard.component';
 import {PapersWithoutEditorComponent} from './pages/dashboard/papers-without-editor/papers-without-editor.component';
 import { PaperDetailComponent } from './pages/dashboard/paper-detail/paper-detail.component';
+import { PapersToReviewComponent } from './pages/dashboard/papers-to-review/papers-to-review.component';
 
 
 const appRoutes: Routes = [
@@ -89,6 +90,11 @@ const appRoutes: Routes = [
         component: PapersWithoutEditorComponent,
       },
       {
+        path: 'to-review',
+        canActivate: [AuthGuard],
+        component: PapersToReviewComponent,
+      },
+      {
         path: '',
         canActivate: [],
         component: PapersSubmittedComponent,
@@ -126,6 +132,7 @@ const appRoutes: Routes = [
     DashboardComponent,
     PapersWithoutEditorComponent,
     PaperDetailComponent,
+    PapersToReviewComponent,
   ],
   imports: [
     BrowserModule,

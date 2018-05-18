@@ -13,11 +13,13 @@ export class PapersService {
   private headers: HttpHeaders;
   private setPaperEditorUrl: string;
   private setReviewerUrl: string;
+  private papersToReviewUrl: string;
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
     this.submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
     this.papersWithEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
     this.papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
+    this.papersToReviewUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
     this.paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
     this.setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
     this.setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
@@ -55,6 +57,16 @@ export class PapersService {
     };
 
     const req = new HttpRequest('GET', this.papersWithEditorUrl, null, options);
+    return this.http.request(req);
+  }
+
+  // getToReviewPapers returns a JSON object containing all the papers that have the requesting user assigned as a reviewer..
+  public getToReviewPapers(): Observable<any> {
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('GET', this.papersToReviewUrl, null, options);
     return this.http.request(req);
   }
 
