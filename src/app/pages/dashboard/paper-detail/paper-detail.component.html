@@ -29,9 +29,9 @@
             editor.</a></li>
           <li *ngIf="isStaff()"><a class="small" href="" (click)="deleteEditor(paper, $event)">Delete the current
             editor.</a></li>
-          <li><a class="small" href="#">Submit a review for the editor.</a></li>
-          <li><a class="small" href="#">Submit editor review.</a></li>
-          <li><a class="small" href="" (click)="openFeedBackModal(content, $event)">View feedback.</a></li>
+          <li><a class="small" href="#">Submit a review.</a></li>
+          <li *ngIf="editorReview"><a class="small" href="#" (click)="openFeedBackModal(content, $event)">
+            View feedback.</a></li>
         </ul>
       </div>
     </div>
@@ -58,7 +58,8 @@
             <input #reviever_input type="text" class="form-control" id="reviewer" placeholder="Email">
           </div>
 
-          <button type="submit" class="btn btn-primary mb-2" (click)="addReviewer(reviever_input.value)">Add Reviewer</button>
+          <button type="submit" class="btn btn-primary mb-2" (click)="addReviewer(reviever_input.value)">Add Reviewer
+          </button>
         </form>
       </div>
     </div>
@@ -85,9 +86,14 @@
     <h4 class="modal-title">Paper Feedback</h4>
   </div>
   <div class="modal-body">
-    <p>One fine body&hellip;</p>
-    <h4>Final</h4>
-    <p>ok</p>
+    <h3>Editor review by: {{ editorReview.user.firstName }} {{ editorReview.user.lastName}}</h3>
+    <p>Appropriate: {{ editorReview.appropriate }}</p>
+    <p>Recommendation: {{ editorReview.recommendation }}</p>
+    <hr>
+    <p>Comment</p>
+    <p class="review_comment">
+      {{ editorReview.comment }}
+    </p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>

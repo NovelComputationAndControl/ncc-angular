@@ -1,0 +1,4 @@
+.review_comment {
+  height: 20vh;
+  overflow-y: auto;
+}

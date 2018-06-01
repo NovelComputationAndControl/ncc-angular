@@ -5,17 +5,20 @@ import {AuthenticationService} from '../../../authentication/authentication.serv
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PapersService} from '../papers.service';
 import {User} from '../../../authentication/user';
+import {Review} from '../review';
 
 @Component({
   selector: 'app-paper-detail',
   templateUrl: './paper-detail.component.html',
-  providers: [PapersService]
+  providers: [PapersService],
+  styleUrls: ['./paper-detail.css']
 })
 export class PaperDetailComponent implements OnInit {
   private id: number;
   public paper: Paper;
   public message: string;
   public messageType: string;
+  public editorReview: Review;
 
   constructor(private route: ActivatedRoute, private router: Router, private auth: AuthenticationService, private modalService: NgbModal,
               private papers: PapersService) {
@@ -32,8 +35,7 @@ export class PaperDetailComponent implements OnInit {
   }
 
   public showActionWindow(): boolean {
-    // TODO: Incomplete;
-    return this.isStaff();
+    return true;
   }
 
   public showReviewersWindow(): boolean {
@@ -42,6 +44,16 @@ export class PaperDetailComponent implements OnInit {
 
   public hasReviewers(): boolean {
     return this.paper.reviewers && this.paper.reviewers.length !== 0;
+  }
+
+  private getEditorReview() {
+    this.papers.getEditorReview(this.id).subscribe(resp => {
+      if (resp.type !== 0) {
+        this.editorReview = new Review().copyFrom(resp.body);
+      }
+    }, (error) => {
+      this.setMessage('warning', 'The editor hasn\'t reviewed this paper yet');
+    });
   }
 
   setEditor(paper: Paper, e: Event) {
@@ -116,6 +128,9 @@ export class PaperDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editorReview = null;
+
+    // Retrieve the paper detail & editor review
     this.papers.getPaperDetail(this.id).subscribe(resp => {
       if (resp) {
         this.paper = new Paper().copyFrom(resp.body);
@@ -126,6 +141,8 @@ export class PaperDetailComponent implements OnInit {
     }, (error) => {
       this.router.navigateByUrl('/404');
     });
+
+    this.getEditorReview();
   }
 
   openFeedBackModal(content, event) {
