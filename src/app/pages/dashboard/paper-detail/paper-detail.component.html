@@ -1,6 +1,6 @@
 <main class="container">
   <div class="row">
-    <header>
+    <header class="col text-center">
       <h2>Paper Detail</h2>
     </header>
     <hr>
@@ -13,15 +13,15 @@
     <div *ngIf="paper" class="col-12 col-sm-12 col-md-11 col-lg-11  offset-md-1 offset-lg-1">
       <hr/>
       <h3 class="text-capitalize">{{ paper.title | slice:0:30 }} by
-        <a [href]="'mailto://'+paper.user.email">{{ paper.user.firstName }} {{ paper.user.lastName }}</a></h3>
+        <a [href]="'mailto://'+paper.user.email">{{ paper.user.first_name }} {{ paper.user.last_name }}</a></h3>
       <p *ngIf="paper.editor" class="text-muted small">This paper is being reviewed by editor: <a
         [href]="'mailto://'+paper.editor.email">{{
-        paper.editor.firstName }} {{ paper.editor.lastName }}</a></p>
+        paper.editor.first_name }} {{ paper.editor.last_name }}</a></p>
       <p class="small text-muted">Current Status: <span class="text-capitalize">{{ paper.status }}</span></p>
       <hr/>
     </div>
     <div *ngIf="paper" class="col-12 col-sm-12 col-md-5 col-lg-5  offset-md-1 offset-lg-1">
-      <div *ngIf="showActionWindow()">
+      <div>
         <h4 class="text-muted">Actions</h4>
         <p class="small text-muted">You can do the following things to this paper:</p>
         <ul>
@@ -41,7 +41,7 @@
         <p class="small text-muted">The following users have been assigned to review this paper:</p>
         <ul>
           <li *ngIf="!hasReviewers()">No reviewers.</li>
-          <li *ngFor="let reviewer of paper.reviewers">{{ reviewer.firstName }} {{ reviewer.lastName }}
+          <li *ngFor="let reviewer of paper.reviewers">{{ reviewer.first_name }} {{ reviewer.last_name }}
             <a href="" (click)="deleteReviewer(reviewer, $event)"><i class="fas fa-trash-alt"></i> Remove</a>
           </li>
         </ul>
@@ -77,6 +77,28 @@
           Materials</a></li>
       </ul>
     </div>
+    <div *ngIf="paper && isEditor()" class="col-12 col-sm-12 col-md-11 col-lg-11 offset-md-1 offset-lg-1">
+      <hr/>
+      <h3>Reviews</h3>
+      <div *ngIf="reviews">
+        <div *ngFor="let review of reviews; let i = index">
+          <header>
+            <h4>{{i}}. {{review.user.first_name}} {{review.user.last_name}}'s Review
+              <span *ngIf="review.editor_review">[Editor Review]</span>
+            </h4>
+            <p class="mb-0">Recommendation: {{review.recommendation}}</p>
+            <p>Appropriate: {{review.appropriate}}</p>
+          </header>
+          <hr/>
+          <p class="review_comment">
+            {{review.comment}}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="!reviews">
+        <p>Currently no reviews have been submitted.</p>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -86,7 +108,7 @@
     <h4 class="modal-title">Paper Feedback</h4>
   </div>
   <div class="modal-body">
-    <h3>Editor review by: {{ editorReview.user.firstName }} {{ editorReview.user.lastName}}</h3>
+    <h3>Editor review by: {{ editorReview.user.first_name }} {{ editorReview.user.last_name}}</h3>
     <p>Appropriate: {{ editorReview.appropriate }}</p>
     <p>Recommendation: {{ editorReview.recommendation }}</p>
     <hr>

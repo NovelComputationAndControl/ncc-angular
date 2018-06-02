@@ -71,8 +71,8 @@ export class SettingsPageComponent implements OnInit {
     });
 
     this.changeNameForm = new FormGroup({
-      first_name: new FormControl(this.user.firstName),
-      last_name: new FormControl(this.user.lastName),
+      first_name: new FormControl(this.user.first_name),
+      last_name: new FormControl(this.user.last_name),
     });
 
     // Get the an array of valid titles and countries.
@@ -118,8 +118,8 @@ export class SettingsPageComponent implements OnInit {
   changeName(data: any): void {
     this.profileService.changeUserName(data).subscribe(resp => {
       this.setMessage('success', 'User name changed! These changes will be reflected next time you log in!');
-      this.user.firstName = resp.first_name;
-      this.user.lastName = resp.last_name;
+      this.user.first_name = resp.first_name;
+      this.user.last_name = resp.last_name;
 
     }, (error) => {
       this.setMessage('danger', 'User name change failed!');

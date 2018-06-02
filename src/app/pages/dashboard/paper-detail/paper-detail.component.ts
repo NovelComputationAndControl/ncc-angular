@@ -19,6 +19,7 @@ export class PaperDetailComponent implements OnInit {
   public message: string;
   public messageType: string;
   public editorReview: Review;
+  public reviews: Review[];
 
   constructor(private route: ActivatedRoute, private router: Router, private auth: AuthenticationService, private modalService: NgbModal,
               private papers: PapersService) {
@@ -30,29 +31,60 @@ export class PaperDetailComponent implements OnInit {
     }
   }
 
-  public isStaff(): boolean {
+  ngOnInit() {
+    this.editorReview = null;
+
+    // Retrieve the paper detail & editor review
+    this.papers.getPaperDetail(this.id).subscribe(resp => {
+      if (resp) {
+        this.paper = new Paper().copyFrom(resp.body);
+      } else {
+        this.router.navigateByUrl('/404');
+      }
+
+    }, (error) => {
+      this.router.navigateByUrl('/404');
+    });
+
+    this.getEditorReview();
+    this.getReviews();
+  }
+
+  isEditor(): boolean {
+    return this.paper && this.paper.editor && this.auth.GetUser.id === this.paper.editor.id || false;
+  }
+
+  isStaff(): boolean {
     return this.auth.isStaff();
   }
 
-  public showActionWindow(): boolean {
-    return true;
-  }
-
-  public showReviewersWindow(): boolean {
+  showReviewersWindow(): boolean {
     return this.paper.user.id === this.auth.GetUser.id;
   }
 
-  public hasReviewers(): boolean {
+  hasReviewers(): boolean {
     return this.paper.reviewers && this.paper.reviewers.length !== 0;
   }
 
-  private getEditorReview() {
+  getEditorReview() {
     this.papers.getEditorReview(this.id).subscribe(resp => {
       if (resp.type !== 0) {
         this.editorReview = new Review().copyFrom(resp.body);
       }
     }, (error) => {
       this.setMessage('warning', 'The editor hasn\'t reviewed this paper yet');
+    });
+  }
+
+  getReviews() {
+    this.papers.getAllReviews(this.id).subscribe(resp => {
+      if (resp.type !== 0) {
+        this.reviews = resp.body;
+        console.log('DEBUG getReviews');
+        console.log(this.reviews);
+      }
+    }, (error) => {
+      console.log(error);
     });
   }
 
@@ -125,24 +157,6 @@ export class PaperDetailComponent implements OnInit {
     }, (error) => {
       this.setMessage('danger', 'Could not set editor!');
     });
-  }
-
-  ngOnInit() {
-    this.editorReview = null;
-
-    // Retrieve the paper detail & editor review
-    this.papers.getPaperDetail(this.id).subscribe(resp => {
-      if (resp) {
-        this.paper = new Paper().copyFrom(resp.body);
-      } else {
-        this.router.navigateByUrl('/404');
-      }
-
-    }, (error) => {
-      this.router.navigateByUrl('/404');
-    });
-
-    this.getEditorReview();
   }
 
   openFeedBackModal(content, event) {
