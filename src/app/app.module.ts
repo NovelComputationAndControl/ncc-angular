@@ -26,8 +26,9 @@ import {StaffGuard} from './authentication/staff-guard.service';
 import {PapersWithEditorComponent} from './pages/dashboard/papers-with-editor/papers-with-editor.component';
 import {DashboardComponent} from './pages/dashboard/dashboard/dashboard.component';
 import {PapersWithoutEditorComponent} from './pages/dashboard/papers-without-editor/papers-without-editor.component';
-import { PaperDetailComponent } from './pages/dashboard/paper-detail/paper-detail.component';
-import { PapersToReviewComponent } from './pages/dashboard/papers-to-review/papers-to-review.component';
+import {PaperDetailComponent} from './pages/dashboard/paper-detail/paper-detail.component';
+import {PapersToReviewComponent} from './pages/dashboard/papers-to-review/papers-to-review.component';
+import {PapersEditorSelfComponent} from './pages/dashboard/papers-editor-self/papers-editor-self.component';
 
 
 const appRoutes: Routes = [
@@ -90,6 +91,11 @@ const appRoutes: Routes = [
         component: PapersWithoutEditorComponent,
       },
       {
+        path: 'editor-is-self',
+        canActivate: [AuthGuard],
+        component: PapersEditorSelfComponent,
+      },
+      {
         path: 'to-review',
         canActivate: [AuthGuard],
         component: PapersToReviewComponent,
@@ -133,6 +139,7 @@ const appRoutes: Routes = [
     PapersWithoutEditorComponent,
     PaperDetailComponent,
     PapersToReviewComponent,
+    PapersEditorSelfComponent,
   ],
   imports: [
     BrowserModule,

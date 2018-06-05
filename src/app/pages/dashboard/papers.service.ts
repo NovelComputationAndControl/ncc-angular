@@ -16,10 +16,12 @@ export class PapersService {
   private papersToReviewUrl: string;
   private getEditorReviewUrl: string;
   private getAllReviewsUrl: string;
+  private papersWithSelfEditorUrl: string;
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
     this.submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
     this.papersWithEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
+    this.papersWithSelfEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/self';
     this.papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
     this.papersToReviewUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
     this.paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
@@ -82,6 +84,16 @@ export class PapersService {
     };
 
     const req = new HttpRequest('GET', this.papersWithEditorUrl, null, options);
+    return this.http.request(req);
+  }
+
+  // getPapersWithEditorSelf returns a JSON object containing all the papers on which the user is an editor.
+  public getPapersWithEditorSelf(): Observable<any> {
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('GET', this.papersWithSelfEditorUrl, null, options);
     return this.http.request(req);
   }
 
