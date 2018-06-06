@@ -29,94 +29,9 @@ import {PapersWithoutEditorComponent} from './pages/dashboard/papers-without-edi
 import {PaperDetailComponent} from './pages/dashboard/paper-detail/paper-detail.component';
 import {PapersToReviewComponent} from './pages/dashboard/papers-to-review/papers-to-review.component';
 import {PapersEditorSelfComponent} from './pages/dashboard/papers-editor-self/papers-editor-self.component';
+import {ReviewSubmissionComponent} from './pages/dashboard/review-submission/review-submission.component';
+import {appRoutes} from './routes';
 
-
-const appRoutes: Routes = [
-  {
-    path: '',
-    component: IndexPageComponent,
-  },
-  // Authentication
-  {
-    path: 'login',
-    component: LoginPageComponent,
-  },
-  {
-    path: 'register',
-    component: RegistrationPageComponent,
-  },
-  // Static Pages
-  {
-    path: 'about',
-    component: AboutPageComponent,
-  },
-  {
-    path: 'policy',
-    component: PolicyPageComponent,
-  },
-  {
-    path: 'contact',
-    component: ContactPageComponent,
-  },
-  // User Profile
-  {
-    path: 'settings',
-    canActivate: [AuthGuard],
-    component: SettingsPageComponent,
-  },
-  // Journal Related Pages
-  {
-    path: 'submit',
-    canActivate: [AuthGuard],
-    component: PaperSubmissionComponent
-  },
-  {
-    path: 'paper/:id',
-    canActivate: [AuthGuard],
-    component: PaperDetailComponent
-  },
-  {
-    path: 'dashboard',
-    canActivate: [AuthGuard],
-    component: DashboardComponent,
-    children: [
-      {
-        path: 'with-editor',
-        canActivate: [StaffGuard],
-        component: PapersWithEditorComponent,
-      },
-      {
-        path: 'no-editor',
-        canActivate: [StaffGuard],
-        component: PapersWithoutEditorComponent,
-      },
-      {
-        path: 'editor-is-self',
-        canActivate: [AuthGuard],
-        component: PapersEditorSelfComponent,
-      },
-      {
-        path: 'to-review',
-        canActivate: [AuthGuard],
-        component: PapersToReviewComponent,
-      },
-      {
-        path: '',
-        canActivate: [],
-        component: PapersSubmittedComponent,
-      },
-    ]
-  },
-  {
-    path: 'with-editor',
-    canActivate: [StaffGuard],
-    component: PapersWithEditorComponent,
-  },
-  {
-    path: '**',
-    component: PageNotFoundComponent
-  }
-];
 
 @NgModule({
   declarations: [
@@ -140,6 +55,7 @@ const appRoutes: Routes = [
     PaperDetailComponent,
     PapersToReviewComponent,
     PapersEditorSelfComponent,
+    ReviewSubmissionComponent,
   ],
   imports: [
     BrowserModule,

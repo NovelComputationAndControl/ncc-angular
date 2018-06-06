@@ -1,0 +1,140 @@
+<main class="container">
+  <div class="row justify-content-center">
+    <header>
+      <h1>Submitting a Review</h1>
+    </header>
+
+    <!-- Form -->
+    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+      <!--<div class="text-center">-->
+
+      <form class="py-5 was-validated"
+            [formGroup]="reviewForm"
+            (ngSubmit)="onSubmit(reviewForm.value)"
+      >
+
+        <fieldset class="form-group">
+          <legend>Is the paper appropriate for this Journal?</legend>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="appropriate" id="appropriate" value="appropriate"
+                     checked [formControl]="reviewForm.controls['appropriate']">
+              This paper is appropriate for the journal.
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="appropriate" id="not_appropriate"
+                     value="not_appropriate" [formControl]="reviewForm.controls['appropriate']">
+              This paper is not appropriate for the journal.
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <legend>Your recommendation?</legend>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="recommendation" id="rec_p2" value="+2"
+                     [formControl]="reviewForm.controls['recommendation']">
+              Publish Unaltered.
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="recommendation" id="rec_0" value="0"
+                     [formControl]="reviewForm.controls['recommendation']">
+              Consider after Major Changes.
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="recommendation" id="rec_p1" value="+1"
+                     [formControl]="reviewForm.controls['recommendation']">
+              Consider after Minor Changes.
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="recommendation" id="rec_m1" value="-1"
+                     [formControl]="reviewForm.controls['recommendation']">
+              Reject. (Paper is not of sufficient quality or novelty to be published in this journal)
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="recommendation" id="rec_m2" value="-2"
+                     [formControl]="reviewForm.controls['recommendation']">
+              Reject. (Paper is seriously flawed; Do not encourage resubmission
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-group">
+          <h2><label for="comment">Review Comment</label></h2>
+          <textarea rows="5" type="text" class="form-control" id="comment" required
+                    [formControl]="reviewForm.controls['comment']">
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-block btn-primary"
+                  [ngClass]="{'btn-primary': !review,
+                              'btn-success': review,
+                              'btn-danger': reviewForm.invalid,
+                              'disabled': reviewForm.invalid}">
+            {{ review ? 'Update' : 'Submit'}} Review
+          </button>
+        </div>
+
+        <!--Error Messages-->
+        <div *ngIf="message" class="col-12">
+          <ngb-alert [type]="messageType" [dismissible]="false">
+            <strong>Warning!</strong> {{ message }}
+          </ngb-alert>
+        </div>
+
+        <!--Form Errors-->
+        <div *ngIf="reviewForm.controls['appropriate'].invalid &&
+        (reviewForm.controls['appropriate'].dirty || reviewForm.controls['appropriate'].touched)" class="col-12">
+          <ngb-alert [type]="'danger'" [dismissible]="false">
+            <strong>Warning!</strong>
+            <ul>
+              <li *ngIf="reviewForm.controls['appropriate'].errors.required">
+                The "appropriate" field is required!
+              </li>
+            </ul>
+          </ngb-alert>
+        </div>
+
+        <div *ngIf="reviewForm.controls['recommendation'].invalid &&
+        (reviewForm.controls['recommendation'].dirty || reviewForm.controls['recommendation'].touched)" class="col-12">
+          <ngb-alert [type]="'danger'" [dismissible]="false">
+            <strong>Warning!</strong>
+            <ul>
+              <li *ngIf="reviewForm.controls['recommendation'].errors.required">
+                The "recommendation" field is required!
+              </li>
+            </ul>
+          </ngb-alert>
+        </div>
+
+        <div *ngIf="reviewForm.controls['comment'].invalid &&
+        (reviewForm.controls['comment'].dirty || reviewForm.controls['comment'].touched)" class="col-12">
+          <ngb-alert [type]="'danger'" [dismissible]="false">
+            <strong>Warning!</strong>
+            <ul>
+              <li *ngIf="reviewForm.controls['comment'].errors.required">
+                The "comment" field is required!
+              </li>
+            </ul>
+          </ngb-alert>
+        </div>
+      </form>
+      <!--End of Form-->
+      <!--</div>-->
+    </div>
+
+    <!--End of container row-->
+  </div>
+</main>

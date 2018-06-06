@@ -17,6 +17,8 @@ export class PapersService {
   private getEditorReviewUrl: string;
   private getAllReviewsUrl: string;
   private papersWithSelfEditorUrl: string;
+  private submitReviewUrl: string;
+  private getUpdateReviewUrl: string;
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
     this.submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
@@ -29,6 +31,8 @@ export class PapersService {
     this.setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
     this.getEditorReviewUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/editor';
     this.getAllReviewsUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/';
+    this.submitReviewUrl = 'http://127.0.0.1:8000/api/review/';
+    this.getUpdateReviewUrl = 'http://127.0.0.1:8000/api/papers/review/paper_id/';
 
 
     this.headers = new HttpHeaders()
@@ -136,6 +140,47 @@ export class PapersService {
     };
 
     const req = new HttpRequest('GET', this.papersWithoutEditorUrl, null, options);
+    return this.http.request(req);
+  }
+
+  // submitReview submits a review for paper provided by paperId
+  public submitReview(paperId: number, reviewData: any): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    formData.append('appropriate', reviewData && reviewData.appropriate || null);
+    formData.append('recommendation', reviewData && reviewData.recommendation || null);
+    formData.append('comment', reviewData && reviewData.comment || null);
+    formData.append('paper', paperId.toString());
+
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('POST', this.submitReviewUrl, formData, options);
+    return this.http.request(req);
+  }
+
+  // updateReview updates the already submitted review.
+  public updateReview(paperId: number, reviewData: any): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    formData.append('appropriate', reviewData && reviewData.appropriate || null);
+    formData.append('recommendation', reviewData && reviewData.recommendation || null);
+    formData.append('comment', reviewData && reviewData.comment || null);
+
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('PUT', this.getUpdateReviewUrl.replace('paper_id', paperId.toString()), formData, options);
+    return this.http.request(req);
+  }
+
+  // getSubmittedReview returns the self submitted review.
+  public getSubmittedReview(paperId: number): Observable<any> {
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('GET', this.getUpdateReviewUrl.replace('paper_id', paperId.toString()), null, options);
     return this.http.request(req);
   }
 }

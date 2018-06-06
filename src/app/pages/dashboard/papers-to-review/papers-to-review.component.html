@@ -28,8 +28,7 @@
         <td *ngIf="paper.editor" class="text-capitalize">{{ paper.editor.first_name }} {{ paper.editor.last_name }}</td>
         <td *ngIf="!paper.editor" class="text-capitalize">Not Assigned</td>
         <td class="text-capitalize">
-          <!-- TODO: Add review and edit review -->
-          <button class="btn btn-primary" (click)="addReview(paper)">Add Review</button>
+          <button class="btn btn-primary" routerLink="/paper/{{paper.id}}/review">Add Review</button>
         </td>
       </tr>
       </tbody>

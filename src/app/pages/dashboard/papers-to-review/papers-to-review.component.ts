@@ -28,10 +28,6 @@ export class PapersToReviewComponent implements OnInit {
     });
   }
 
-  addReview(paper: Paper) {
-    console.log('addReview not implemented!');
-  }
-
   private setMessage(type: string, mess: string) {
     this.message = mess;
     this.messageType = type;

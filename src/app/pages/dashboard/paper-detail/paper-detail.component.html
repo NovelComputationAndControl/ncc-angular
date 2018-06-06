@@ -29,7 +29,7 @@
             editor.</a></li>
           <li *ngIf="isStaff()"><a class="small" href="" (click)="deleteEditor(paper, $event)">Delete the current
             editor.</a></li>
-          <li><a class="small" href="#">Submit a review.</a></li>
+          <li><a class="small" routerLink="../{{paper.id}}/review">Submit a review.</a></li>
           <li *ngIf="editorReview"><a class="small" href="#" (click)="openFeedBackModal(content, $event)">
             View feedback.</a></li>
         </ul>
