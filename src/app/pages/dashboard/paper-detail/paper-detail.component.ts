@@ -50,6 +50,14 @@ export class PaperDetailComponent implements OnInit {
     this.getReviews();
   }
 
+  canReview(): boolean {
+    const canReview = this.paper.reviewers.filter((item: User) => {
+      return item.id === this.auth.GetUser.id;
+    });
+
+    return canReview.length !== 0;
+  }
+
   isEditor(): boolean {
     return this.paper && this.paper.editor && this.auth.GetUser.id === this.paper.editor.id || false;
   }
@@ -58,8 +66,8 @@ export class PaperDetailComponent implements OnInit {
     return this.auth.isStaff();
   }
 
-  showReviewersWindow(): boolean {
-    return this.paper.user.id === this.auth.GetUser.id;
+  showAddReviewersWindow(): boolean {
+    return this.paper.editor.id === this.auth.GetUser.id;
   }
 
   hasReviewers(): boolean {
@@ -80,8 +88,6 @@ export class PaperDetailComponent implements OnInit {
     this.papers.getAllReviews(this.id).subscribe(resp => {
       if (resp.type !== 0) {
         this.reviews = resp.body;
-        console.log('DEBUG getReviews');
-        console.log(this.reviews);
       }
     }, (error) => {
       console.log(error);

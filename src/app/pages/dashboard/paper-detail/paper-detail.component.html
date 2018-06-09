@@ -29,14 +29,14 @@
             editor.</a></li>
           <li *ngIf="isStaff()"><a class="small" href="" (click)="deleteEditor(paper, $event)">Delete the current
             editor.</a></li>
-          <li><a class="small" routerLink="../{{paper.id}}/review">Submit a review.</a></li>
+          <li *ngIf="canReview()"><a class="small" routerLink="../{{paper.id}}/review">Submit a review.</a></li>
           <li *ngIf="editorReview"><a class="small" href="#" (click)="openFeedBackModal(content, $event)">
             View feedback.</a></li>
         </ul>
       </div>
     </div>
     <div *ngIf="paper" class="col-12 col-sm-12 col-md-5 col-lg-5  offset-md-1 offset-lg-1">
-      <div *ngIf="showReviewersWindow()">
+      <div *ngIf="showAddReviewersWindow()">
         <h4 class="text-muted">Reviewers</h4>
         <p class="small text-muted">The following users have been assigned to review this paper:</p>
         <ul>
