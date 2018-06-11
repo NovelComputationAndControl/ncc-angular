@@ -129,25 +129,34 @@ export class PaperDetailComponent implements OnInit {
   }
 
   addReviewer(elem: HTMLInputElement) {
-    const id = +elem;
-    if (!id) {
+    if (!elem) {
       return;
     }
 
-    this.papers.setReviewer(id, this.paper.id, 'PUT').subscribe(resp => {
-      if (resp) {
-        this.setMessage('success', 'Reviewer added!');
-        if (resp.ok) { /* Add reviewers to paper */
-          this.paper.reviewers = [];
-          this.paper.addReviewers(resp.body);
-        }
-      } else {
-        this.setMessage('danger', 'Could not add reviewer!');
-      }
+    this.papers.searchUser(elem.toString())
+      .subscribe(
+        (result) => {
+          if (result.ok) {
+            const id = result.body[0].id; // Get the first element's id.
+            console.log(result.body[0]);
+            this.papers.setReviewer(id, this.paper.id, 'PUT').subscribe(resp => {
+              if (resp) {
+                this.setMessage('success', 'Reviewer added!');
+                if (resp.ok) { /* Add reviewers to paper */
+                  this.paper.reviewers = [];
+                  this.paper.addReviewers(resp.body);
+                }
+              } else {
+                this.setMessage('danger', 'Could not add reviewer!');
+              }
 
-    }, (error) => {
-      this.setMessage('danger', 'Could perform selected operation!');
-    });
+            }, (error) => {
+              this.setMessage('danger', 'Could perform selected operation!');
+            });
+
+          }
+        }
+      );
   }
 
   deleteEditor(paper: Paper, e: Event) {

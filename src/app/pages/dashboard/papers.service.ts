@@ -5,35 +5,23 @@ import {AuthenticationService} from '../../authentication/authentication.service
 
 @Injectable()
 export class PapersService {
-  private submittedPapersUrl: string;
-  private papersWithEditorUrl: string;
-  private papersWithoutEditorUrl: string;
-  private paperDetailsUrl: string;
-
   private headers: HttpHeaders;
-  private setPaperEditorUrl: string;
-  private setReviewerUrl: string;
-  private papersToReviewUrl: string;
-  private getEditorReviewUrl: string;
-  private getAllReviewsUrl: string;
-  private papersWithSelfEditorUrl: string;
-  private submitReviewUrl: string;
-  private getUpdateReviewUrl: string;
+
+  private submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
+  private papersWithEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
+  private papersWithSelfEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/self';
+  private papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
+  private papersToReviewUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
+  private paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
+  private setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
+  private setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
+  private getEditorReviewUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/editor';
+  private getAllReviewsUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/';
+  private submitReviewUrl = 'http://127.0.0.1:8000/api/review/';
+  private getUpdateReviewUrl = 'http://127.0.0.1:8000/api/papers/review/paper_id/';
+  private listUsersUrl = 'http://127.0.0.1:8000/api/account/users/';
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
-    this.submittedPapersUrl = 'http://127.0.0.1:8000/api/papers';
-    this.papersWithEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
-    this.papersWithSelfEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/self';
-    this.papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
-    this.papersToReviewUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
-    this.paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
-    this.setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
-    this.setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
-    this.getEditorReviewUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/editor';
-    this.getAllReviewsUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/';
-    this.submitReviewUrl = 'http://127.0.0.1:8000/api/review/';
-    this.getUpdateReviewUrl = 'http://127.0.0.1:8000/api/papers/review/paper_id/';
-
 
     this.headers = new HttpHeaders()
       .set('Authorization', 'JWT ' + auth.GetUser.token);
@@ -181,6 +169,16 @@ export class PapersService {
     };
 
     const req = new HttpRequest('GET', this.getUpdateReviewUrl.replace('paper_id', paperId.toString()), null, options);
+    return this.http.request(req);
+  }
+
+  // searchUser returns a list of users that match the email address.
+  public searchUser(value: string): Observable<any> {
+    const options = {
+      headers: this.headers,
+    };
+
+    const req = new HttpRequest('GET', `${this.listUsersUrl}?email=${value}`, null, options);
     return this.http.request(req);
   }
 }

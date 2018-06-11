@@ -41,16 +41,16 @@
         <p class="small text-muted">The following users have been assigned to review this paper:</p>
         <ul>
           <li *ngIf="!hasReviewers()">No reviewers.</li>
-          <li *ngFor="let reviewer of paper.reviewers">{{ reviewer.first_name }} {{ reviewer.last_name }}
+          <li *ngFor="let reviewer of paper.reviewers">
+            <p class="d-inline">{{ reviewer.first_name }} {{ reviewer.last_name }}
+              <a [href]="'mailto:'+reviewer.email">{{reviewer.email}}</a>>
+            </p>
             <a href="" (click)="deleteReviewer(reviewer, $event)"><i class="fas fa-trash-alt"></i> Remove</a>
           </li>
         </ul>
         <p class="small text-muted">You can add and remove as many reviewers as you like, just enter their email
           address. For the moment you may only add registered users.</p>
         <form class="form-inline">
-          <ngb-alert [type]="'danger'" [dismissible]="false">
-            <p>Adding reviewers via email is not supported, yet. Only user id.</p>
-          </ngb-alert>
           <div class="input-group mb-2 mr-sm-2">
             <div class="input-group-prepend">
               <div class="input-group-text">@</div>
