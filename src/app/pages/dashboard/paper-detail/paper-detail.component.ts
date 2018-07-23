@@ -67,7 +67,7 @@ export class PaperDetailComponent implements OnInit {
   }
 
   showAddReviewersWindow(): boolean {
-    return this.paper.editor.id === this.auth.GetUser.id;
+    return this.paper.editor && this.paper.editor.id === this.auth.GetUser.id;
   }
 
   hasReviewers(): boolean {
