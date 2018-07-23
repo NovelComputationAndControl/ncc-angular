@@ -12,13 +12,13 @@ export class PapersService {
   private papersWithSelfEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/self';
   private papersWithoutEditorUrl = 'http://127.0.0.1:8000/api/papers/no-editor/';
   private papersToReviewUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
-  private paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/detail/';
-  private setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/editor/';
-  private setReviewerUrl = 'http://127.0.0.1:8000/api/papers/reviewer/';
+  private paperDetailsUrl = 'http://127.0.0.1:8000/api/papers/paper_id/detail/';
+  private setPaperEditorUrl = 'http://127.0.0.1:8000/api/papers/paper_id/editor/';
+  private setReviewerUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviewer/';
   private getEditorReviewUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/editor';
   private getAllReviewsUrl = 'http://127.0.0.1:8000/api/papers/paper_id/reviews/';
   private submitReviewUrl = 'http://127.0.0.1:8000/api/review/';
-  private getUpdateReviewUrl = 'http://127.0.0.1:8000/api/papers/review/paper_id/';
+  private getUpdateReviewUrl = 'http://127.0.0.1:8000/api/papers/paper_id/review/';
   private listUsersUrl = 'http://127.0.0.1:8000/api/account/users/';
 
   constructor(private http: HttpClient, private auth: AuthenticationService) {
@@ -27,7 +27,7 @@ export class PapersService {
       .set('Authorization', 'JWT ' + auth.GetUser.token);
   }
 
-  // deleteReviewer deletes a reviewer from a paper.
+  // setReviewer sets reviewer for a paper.
   public setReviewer(revId: number, paperId: number, method: string): Observable<any> {
     const options = {
       headers: this.headers,
@@ -35,7 +35,7 @@ export class PapersService {
     const data = new FormData();
     data.append('user_pk', revId.toString());
 
-    const req = new HttpRequest(method, `${this.setReviewerUrl}${paperId}/`, data, options);
+    const req = new HttpRequest(method, this.setReviewerUrl.replace('paper_id', paperId.toString()), data, options);
     return this.http.request(req);
   }
 
@@ -105,7 +105,7 @@ export class PapersService {
       headers: this.headers,
     };
 
-    const req = new HttpRequest('GET', `${this.paperDetailsUrl}${id}/`, null, options);
+    const req = new HttpRequest('GET', this.paperDetailsUrl.replace('paper_id', id.toString()), null, options);
     return this.http.request(req);
   }
 
@@ -117,7 +117,7 @@ export class PapersService {
       headers: this.headers,
     };
 
-    const req = new HttpRequest(method, `${this.setPaperEditorUrl}${id}/`, null, options);
+    const req = new HttpRequest(method, this.setPaperEditorUrl.replace('paper_id', id.toString()), null, options);
     return this.http.request(req);
   }
 
