@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 })
 export class NavbarComponent {
   private _isAuthenticated: boolean;
+  public isCollapsed = true;
 
   constructor(private auth: AuthenticationService, private router: Router) {
     this.checkIfAuthenticated();
